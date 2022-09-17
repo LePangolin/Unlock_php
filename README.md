@@ -1,8 +1,8 @@
 # Unlock_php
 
-Adrien Schloesser
-Julien Sacquard
-Lucas Cordurié
+ - Adrien Schloesser
+ - Julien Sacquard
+ - Lucas Cordurié
 
 
 # Trello
