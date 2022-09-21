@@ -1,10 +1,21 @@
-# Unlock_php
+# docker-compose PHP MariaDB slim4 Boilerplate
 
- - Adrien Schloesser
- - Julien Sacquard
- - Lucas Cordurié
+1. start and get logs
 
+```
+docker-compose up
+```
 
-# Trello
+2. open an new terminal and get into PHP container
 
-https://trello.com/b/sMLUD0oV/unlock 
+```
+docker-compose exec --workdir /app php /bin/bash
+```
+
+3. within the PHP container, install compose dependencies
+
+```
+composer update
+```
+
+4. slim app runs on http://localhost:8080
