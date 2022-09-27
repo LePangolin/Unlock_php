@@ -503,6 +503,9 @@ iNilo commented on 9 Mar
 .serverless
 artifacts by https://www.serverless.com/framework/docs/providers/aws/guide/deploying
 
+# Docker
+.docker
+
 @LePangolin
  
 Add heading textAdd bold text, <Ctrl+b>Add italic text, <Ctrl+i>
