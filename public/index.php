@@ -11,7 +11,7 @@ require __DIR__ . '/../vendor/autoload.php';
 
 $app = AppFactory::create();
 
-$twig = Twig::create(__DIR__ . '/Views', ['cache' => false]);
+$twig = Twig::create(__DIR__ . '/Views/templates', ['cache' => false]);
 
 $app->add(TwigMiddleware::create($app, $twig));
 
