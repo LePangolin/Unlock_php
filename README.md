@@ -30,3 +30,8 @@ composer update
 ```
 
 4. slim app runs on http://localhost:8080
+
+
+# Lien Ressources
+
+https://www.slimframework.com/docs/v4/cookbook/database-doctrine.html
