@@ -6,7 +6,8 @@
         "php": "8.*",
         "doctrine/orm": "^2.13",
         "symfony/cache": "^6.1",
-        "doctrine/annotations": "^1.13"
+        "doctrine/annotations": "^1.13",
+        "slim/twig-view": "^3.3"
     },
     "autoload" : {
         "psr-4" : {
