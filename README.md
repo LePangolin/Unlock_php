@@ -1,3 +1,14 @@
+# Groupe
+
+- Sacquard Julien
+- Cordurié Lucas
+- Schloesser Adrien
+
+# Trello
+
+https://trello.com/b/sMLUD0oV/unlock
+
+
 # docker-compose PHP MariaDB slim4 Boilerplate
 
 1. start and get logs
