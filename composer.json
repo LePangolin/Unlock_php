@@ -3,7 +3,10 @@
         "laravel/installer" : "~1.1",
         "slim/slim": "4.*",
         "slim/psr7": "^1.5",
-        "php": "8.*"
+        "php": "8.*",
+        "doctrine/orm": "^2.13",
+        "symfony/cache": "^6.1",
+        "doctrine/annotations": "^1.13"
     },
     "autoload" : {
         "psr-4" : {
