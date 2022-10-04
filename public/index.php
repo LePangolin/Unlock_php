@@ -16,6 +16,7 @@ $twig = Twig::create(__DIR__ . '/Views/templates', ['cache' => false]);
 $app->add(TwigMiddleware::create($app, $twig));
 
 $app->get('/', function (Request $request, Response $response, $args) {
+    // utilise controller
     $view = Twig::fromRequest($request);
     return $view->render($response, 'index.html.twig', [
         'title' => 'Accueil',
