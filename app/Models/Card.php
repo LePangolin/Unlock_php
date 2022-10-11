@@ -15,12 +15,40 @@ final class Card
     #[Id, Column(type: 'String'), GeneratedValue(strategy: 'AUTO')]
     private int $id;
 
-    #[Id, Column(type: 'String'), GeneratedValue(strategy: 'AUTO')]
+    #[Id, Column(type: 'String')]
     private string $deckId;
 
-    #[Column(type: 'String'), GeneratedValue(strategy: 'AUTO')]
+    #[Column(type: 'String')]
     private string $pathToRecto;
 
-    #[Column(type: 'String'), GeneratedValue(strategy: 'AUTO')]
+    #[Column(type: 'String')]
     private string $pathToVerso;
+
+    public function __construct(string $deckId, string $pathToRecto, string $pathToVerso)
+    {
+        $this->deckId = $deckId;
+        $this->pathToRecto = $pathToRecto;
+        $this->pathToVerso = $pathToVerso;
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function getDeckId(): string
+    {
+        return $this->deckId;
+    }
+
+    public function getPathToRecto(): string
+    {
+        return $this->pathToRecto;
+    }
+
+    public function getPathToVerso(): string
+    {
+        return $this->pathToVerso;
+    }
+
 }
