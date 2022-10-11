@@ -54,7 +54,7 @@ $container->set(UserService::class, static function (Container $c) {
 });
 
 $container->set(UserController::class, static function (Container $c) {
-    return new UserController($c->get(UserService::class, $c->get(LoggerInterface::class)));
+    return new UserController($c->get(UserService::class));
 });
 
 return $container;

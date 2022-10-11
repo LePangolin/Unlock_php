@@ -20,7 +20,7 @@ final class UserService
     public function signUp(string $email): User
     {
         $newUser = new User($email);
-
+        
         $this->em->persist($newUser);
         $this->em->flush();
         
