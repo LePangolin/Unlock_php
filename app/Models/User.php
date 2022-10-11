@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Table;
 
-#[Entity, Table(name: 'users')]
+#[Entity, Table(name: 'Users')]
 final class User
 {
     #[Id, Column(type: 'integer'), GeneratedValue(strategy: 'AUTO')]
@@ -19,13 +19,17 @@ final class User
     #[Column(type: 'string', unique: true, nullable: false)]
     private string $email;
 
+    #[Column(type: 'string', nullable: false)]
+    private string $password;
+
     #[Column(name: 'registered_at', type: 'datetimetz_immutable', nullable: false)]
     private DateTimeImmutable $registeredAt;
 
-    public function __construct(string $email)
+    public function __construct(string $email, string $password)
     {
-        $this->email = $email;
-        $this->registeredAt = new DateTimeImmutable('now');
+        $this->email = filter_var($email);
+        $this->password = hash('sha256', filter_var($password));
+        $this->registeredAt = new DateTimeImmutable();
     }
 
     public function getId(): int
@@ -42,4 +46,5 @@ final class User
     {
         return $this->registeredAt;
     }
+    
 }
