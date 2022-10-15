@@ -69,5 +69,5 @@ final class Version202210111135 extends AbstractMigration
         $this->addSql('DELETE FROM cards');
         $this->addSql('DROP TABLE cards');
     }
-
 }
+
