@@ -10,4 +10,6 @@ final class Version202210111135 extends AbstractMigration
         $cards = [];
         array_push($cards, ['id' => '1', 'deckId' => "ep5", 'pathToRecto' => 'img/recto/ep5/1.png', 'pathToVerso' => 'img/verso/ep5/1.png']);
     }
+
 }
+

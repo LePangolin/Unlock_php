@@ -9,6 +9,12 @@ return [
         'displayErrorDetails' => true,
         'determineRouteBeforeAppMiddleware' => false,
 
+        'logger' =>[ 
+            'name' => 'app',
+            'path' => APP_ROOT . '/logs/app.log',
+        ],
+        
+
         'doctrine' => [
             // Enables or disables Doctrine metadata caching
             // for either performance or convenience during development.
