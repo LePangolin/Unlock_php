@@ -7,7 +7,7 @@
         "doctrine/annotations": "^1.13",
         "slim/twig-view": "^3.3",
         "uma/dic": "^3.0",
-        "doctrine/migrations": "3.5.2"
+        "doctrine/migrations": "3.5.2",
         "monolog/monolog": "^3.2"
     },
     "autoload" : {
