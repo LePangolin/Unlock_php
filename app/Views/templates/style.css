@@ -1,0 +1,11 @@
+.session{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* center the content */
+.session h2{
+    margin : auto;
+}

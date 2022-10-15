@@ -3,8 +3,23 @@
 
 {% block body %}
 
-    <h1>{{ title }}</h1>
-    <p> {{ content }} </p>
+    {% if sessions is defined %}
+        {% for session in sessions %}
+            <center>
+                <h1> Unlock! </h1>
+                <div class="session">
+                    <h2 id="Welcome" class="Title2 Center">Bienvenue ! {{ session.name }}</h2>
+                </div>
+            </center>
+        {% endfor %}
+    {% else %}
+        <center>
+            <h1> Unlock! </h1>
+            <div class="session">
+                <h2 id="Welcome" class="Title2 Center">Bienvenue !</h2>
+            </div>
+        </center>
+    {% endif %}
 
 {% endblock %}
 

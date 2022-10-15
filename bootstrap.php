@@ -11,16 +11,23 @@ use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use UMA\DIC\Container;
 use App\Services\UserService;
 use App\Controllers\UserController;
+use App\Controllers\HTMLController;
 use Monolog\Level;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use Psr\Log\LoggerInterface;
+use Slim\Views\Twig;
+
 
 require_once __DIR__ . '/vendor/autoload.php';
 
 
 $container = new Container(require __DIR__ . '/settings.php');
 
+$container->set("view", function() {
+    // return Twig::create(__DIR__ . '/app/Views/templates', ['cache' => __DIR__ . '/app/Views/cache']);
+    return Twig::create(__DIR__ . '/app/Views/templates', ['cache' => false]);
+});
 
 $container->set(LoggerInterface::class, function (ContainerInterface $c) {
     $settings = $c->get('settings')['logger'];
@@ -55,6 +62,10 @@ $container->set(UserService::class, static function (Container $c) {
 
 $container->set(UserController::class, static function (Container $c) {
     return new UserController($c->get(UserService::class));
+});
+
+$container->set(HTMLController::class, static function (Container $c) {
+    return new HTMLController($c->get("view"));
 });
 
 return $container;
