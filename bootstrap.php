@@ -20,8 +20,11 @@ use App\Container;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
+$logger =  new Logger('container');
+$logger->pushHandler(new StreamHandler(__DIR__ . '/logs/container.log', Level::Debug));
 
-$container = new Container(require __DIR__ . '/settings.php');
+
+$container = new Container($logger,require __DIR__ . '/settings.php');
 
 
 $container->set(LoggerInterface::class, function (ContainerInterface $c) {

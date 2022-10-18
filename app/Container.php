@@ -10,6 +10,7 @@ use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use function array_key_exists;
 use function call_user_func;
+use Psr\Log\LoggerInterface;
 
 class Container implements ContainerInterface
 {
@@ -21,9 +22,10 @@ class Container implements ContainerInterface
     /**
      * @param array $entries Array of string => mixed.
      */
-    public function __construct(array $entries = [])
+    public function __construct(LoggerInterface $logger,array $entries = [])
     {
         $this->container = $entries;
+        $this->logger = $logger;
     }
 
     /**
@@ -35,7 +37,10 @@ class Container implements ContainerInterface
             $this->container[$id] = call_user_func($this->container[$id], $this);
         }
 
+        $this->logger->debug('Container get: ' . $id);
+
         return $this->container[$id];
+
     }
 
     /**
@@ -43,6 +48,8 @@ class Container implements ContainerInterface
      */
     public function has(string $id): bool
     {
+
+        $this->logger->debug('Container has: ' . $id);
         return array_key_exists($id, $this->container);
     }
 
@@ -52,11 +59,15 @@ class Container implements ContainerInterface
      */
     public function set(string $id, $entry): void
     {
+
+        $this->logger->debug('Container set: ' . $id);
         $this->container[$id] = $entry;
     }
 
     public function register(ServiceProvider $provider): void
     {
+
+        $this->logger->debug('Container register: ' . $provider->getName());
         $provider->provide($this);
     }
 
