@@ -7,7 +7,6 @@
         "symfony/cache": "^6.1",
         "doctrine/annotations": "^1.13",
         "slim/twig-view": "^3.3",
-        "uma/dic": "^3.0",
         "monolog/monolog": "^3.2"
     },
     "autoload" : {

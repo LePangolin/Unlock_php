@@ -2,19 +2,21 @@
 
 // bootstrap.php
 
+
 use Doctrine\Common\Cache\Psr6\DoctrineProvider;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
-use UMA\DIC\Container;
 use App\Services\UserService;
 use App\Controllers\UserController;
 use Monolog\Level;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use Psr\Log\LoggerInterface;
+use App\Container;
+
 
 require_once __DIR__ . '/vendor/autoload.php';
 
