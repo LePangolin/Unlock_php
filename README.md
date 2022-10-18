@@ -11,27 +11,32 @@ https://trello.com/b/sMLUD0oV/unlock
 
 # docker-compose PHP MariaDB slim4 Boilerplate
 
-1. start and get logs
+1. Initialisation du projet
+
+Si vous êtes sur Windows dans la console powershell
+
+```bash
+
+bash initialise.sh
 
 ```
-docker-compose up
-```
 
-2. open an new terminal and get into PHP container
+si vous êtes sur Linux ou Mac
 
-```
-docker-compose exec --workdir /app php /bin/bash
-```
+```bash
 
-3. within the PHP container, install compose dependencies
+./initialise.sh
 
 ```
-composer update
-```
-4. initialize the database in the PHP container
 
-```
-php vendor/bin/doctrine orm:schema-tool:create
+2. Seeding du projet
+
+Une fois dans le container php
+
+```bash
+
+./InDocker.sh
+
 ```
 
 
