@@ -15,10 +15,10 @@ final class Game
     #[Id, Column(type: 'integer'), GeneratedValue(strategy: 'AUTO')]
     private int $id;
 
-    #[Id, Column(type: 'integer')]
+    #[Column(type: 'integer')]
     private int $playerId;
 
-    #[Id, Column(type: 'integer')]
+    #[Column(type: 'integer')]
     private string $deckId;
 
     public function __construct(int $playerId, string $deckId)

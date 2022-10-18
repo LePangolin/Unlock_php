@@ -7,21 +7,23 @@ use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\Table;
 
 #[Entity, Table(name: 'Cards')]
 final class Card
 {
-    #[Id, Column(type: 'String'), GeneratedValue(strategy: 'AUTO')]
-    private int $id;
 
-    #[Id, Column(type: 'String')]
+    #[Id, Column(type: 'string'), JoinColumn(name: '', referencedColumnName: 'idCard')]
+    private string $id;
+
+    #[Column(type: 'string')]
     private string $deckId;
 
-    #[Column(type: 'String')]
+    #[Column(type: 'string')]
     private string $pathToRecto;
 
-    #[Column(type: 'String')]
+    #[Column(type: 'string')]
     private string $pathToVerso;
 
     public function __construct(string $deckId, string $pathToRecto, string $pathToVerso)
@@ -31,7 +33,7 @@ final class Card
         $this->pathToVerso = $pathToVerso;
     }
 
-    public function getId(): int
+    public function getId(): string
     {
         return $this->id;
     }

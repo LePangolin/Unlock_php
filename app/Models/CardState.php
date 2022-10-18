@@ -18,7 +18,7 @@ final class CardState
     #[Id, Column(type: 'integer'), GeneratedValue(strategy: 'AUTO')]
     private int $idGame;
     
-    #[Id, Column(type: 'integer',  nullable: false)]
+    #[Column(type: 'integer',  nullable: false)]
     private string $idCard;
 
     #[Column(type: 'string', nullable: false)]
