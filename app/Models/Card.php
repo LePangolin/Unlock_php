@@ -17,7 +17,7 @@ final class Card
     #[Id, Column(type: 'string'), JoinColumn(name: '', referencedColumnName: 'idCard')]
     private string $id;
 
-    #[Column(type: 'string')]
+    #[Id, Column(type: 'string')]
     private string $deckId;
 
     #[Column(type: 'string')]

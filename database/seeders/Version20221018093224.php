@@ -1,8 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
+namespace Migrations;
+
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
-final class Version202210111135 extends AbstractMigration
+
+/**
+ * Auto-generated Migration: Please modify to your needs!
+ */
+final class Version20221018093224 extends AbstractMigration
 {
     private function addCard (&$array, $deckId, $idCard){
         array_push($array, ['id' => $idCard,'deckId' => $deckId, 'pathToRecto' => 'img/recto/' . $deckId . '/' . $idCard . '.png', 'pathToVerso' => 'img/verso/' . $deckId . '/' . $idCard . '.png']);
@@ -14,10 +22,10 @@ final class Version202210111135 extends AbstractMigration
         return 'Creation de la table \'cards\' et insertions des cartes';
     }
 
-    public function up(Schema $schema)
+    public function up(Schema $schema) : void
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mariadb', 'Migration can only be executed safely on \'mariadb\'.');
-        $this->addSql('CREATE TABLE cards (id STRING NOT NULL, deckId STRING NOT NULL, pathToRecto STRING NOT NULL, pathToVerso STRING NOT NULL, PRIMARY KEY(id, deckId))');
+        // $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mariadb', 'Migration can only be executed safely on \'mariadb\'.');
+        // $this->addSql('CREATE TABLE cards (id STRING NOT NULL, deckId STRING NOT NULL, pathToRecto STRING NOT NULL, pathToVerso STRING NOT NULL, PRIMARY KEY(id, deckId))');
 
         $cards = [];
 
@@ -63,11 +71,10 @@ final class Version202210111135 extends AbstractMigration
         }
     }
 
-    public function down(Schema $schema)
+    public function down(Schema $schema) : void 
     {
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mariadb', 'Migration can only be executed safely on \'mariadb\'.');
+        // $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mariadb', 'Migration can only be executed safely on \'mariadb\'.');
         $this->addSql('DELETE FROM cards');
         $this->addSql('DROP TABLE cards');
     }
 }
-
