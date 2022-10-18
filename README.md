@@ -28,8 +28,14 @@ docker-compose exec --workdir /app php /bin/bash
 ```
 composer update
 ```
+4. initialize the database in the PHP container
 
-4. slim app runs on http://localhost:8080
+```
+php vendor/bin/doctrine orm:schema-tool:create
+```
+
+
+5. slim app runs on http://localhost:8080
 
 
 # Lien Ressources
