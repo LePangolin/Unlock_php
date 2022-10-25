@@ -1,0 +1,58 @@
+:root{
+    --bg-color-dark : #00A7EE;
+    --bg-color-light : #2CCDF7;
+}
+
+
+button{
+	width: 62.5%;
+	height: 40px;
+	margin: 10px auto;
+	justify-content: center;
+	display: block;
+	color: #fff;
+	background: var(--bg-color-dark);
+	font-size: 1em;
+	font-weight: bold;
+	margin-top: 20px;
+	outline: none;
+	border: none;
+	border-radius: 5px;
+	transition: .2s ease-in;
+	cursor: pointer;
+}
+button:hover{
+	background: var(--bg-color-light);
+}
+button:disabled{
+	background: grey;
+	color: var(--bg-color-dark);
+	cursor: not-allowed;
+}
+
+label{
+	color: #fff;
+	font-size: 2.3em;
+	justify-content: center;
+	display: flex;
+	margin: 60px;
+	font-weight: bold;
+	cursor: pointer;
+	transition: .5s ease-in-out;
+}
+input{
+	width: 60%;
+	height: 20px;
+	background: #e0dede;
+	justify-content: center;
+	display: flex;
+	margin: 20px auto;
+	padding: 10px;
+	border: none;
+	outline: none;
+	border-radius: 5px;
+}
+
+.hidden{
+	display: none;
+}
