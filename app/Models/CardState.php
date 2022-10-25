@@ -21,14 +21,13 @@ final class CardState
     #[Column(type: 'integer',  nullable: false)]
     private string $idCard;
 
-    #[Column(type: 'string', nullable: false)]
-    private Enum $state;
+    #[Column(type: 'integer', nullable: false)]
+    private int $idState;
 
-    public function __construct(int $idGame, string $idCard, Enum $state)
+    public function __construct(string $idCard, int $idState)
     {
-        $this->idGame = $idGame;
         $this->idCard = $idCard;
-        $this->state = $state;
+        $this->idState = $idState;
     }
 
     public function getIdGame(): int
@@ -41,9 +40,9 @@ final class CardState
         return $this->idCard;
     }
 
-    public function getState(): Enum
+    public function getIdState(): int
     {
-        return $this->state;
+        return $this->idState;
     }
 
 }

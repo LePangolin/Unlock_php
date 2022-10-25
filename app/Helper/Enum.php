@@ -4,8 +4,7 @@ namespace App\Helper;
 
 class Enum
 {
-    const  DRAWVISIBLE = 'drawVisible';
-    const  DRAWINVISIBLE = 'drawInvisible';
+    const  DRAW = "draw";
     const  PLAY = 'play';
     const  DISCARD = 'discard';
 }
