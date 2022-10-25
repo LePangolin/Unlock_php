@@ -21,4 +21,6 @@ $app->get('/', \App\Controllers\HTMLController::class . ':acceuil')->setName('ac
 $app->post('/login', \App\Controllers\UserController::class . ':login')->setName('login');
 $app->post('/signup', \App\Controllers\UserController::class . ':signUp')->setName('signup');
 
+$app->get('/gameboard/{gameId}[/]', \App\Controllers\HTMLController::class . ':gameboard')->setName('gameboard');
+
 $app->run();

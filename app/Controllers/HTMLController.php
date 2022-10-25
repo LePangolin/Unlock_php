@@ -33,6 +33,19 @@ class HTMLController
             ]);
         }
     }
+
+    public function gameboard(Request $request, Response $response, $args): Response
+    {
+       if( isset($_SESSION['user']) ) {
+            return $this->twig->render($response, 'board.html.twig', [
+                'title' => 'Gameboard',
+            ]);
+        } else {
+            return $this->twig->render($response, 'index.html.twig', [
+                'title' => 'Acceuil',
+            ]);
+        }
+    }
 }
 
 ?>

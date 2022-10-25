@@ -1,6 +1,10 @@
 
 {% include "head.html.twig"%}
-
+        <style>
+            {{ source("./assets/style/index.css") }}
+        </style>
+    </head>
+    <body>
 {% block body %}
 
     <p class="title"> Unlock ! </p>
@@ -26,6 +30,11 @@
         </div>
 	</div>
 
+
 {% endblock %}
 
+    </body>
+    <script>
+        {{ source('./assets/script/index.js')}}
+    </script>
 {% include "footer.html.twig"%}

@@ -1,0 +1,83 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  max-width: 100vw;
+  max-height: 100vh;
+}
+
+body {
+  overflow: hidden;
+  min-width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+#topbar {
+  display: grid;
+  grid-template-columns: 15% auto 15%;
+  min-height: 33vh;
+  width: 100%;
+}
+
+#stackDraw {
+  grid-column: 1;
+  background-color: #222;
+}
+
+#actions {
+  grid-column: 2;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+#actionDraw,
+#actionCards,
+#actionDiscardPile {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin: 0 1rem;
+}
+
+#actionDraw {
+  grid-column: 1;
+  align-items: flex-start;
+}
+
+#actionCards {
+  grid-column: 2;
+  align-items: center;
+}
+
+#actionDiscardPile {
+  grid-column: 3;
+  align-items: flex-end;
+}
+
+#discardPile {
+  grid-column: 3;
+  background-color: #222;
+}
+
+#board {
+  display: flex;
+  flex-direction: row;
+  height: 67vh;
+  width: 100%;
+}
+
+#cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  height: 100%;
+  width: 85%;
+}
+
+#menu {
+  float: right;
+  width: 15%;
+  border: solid 2px #222;
+}
