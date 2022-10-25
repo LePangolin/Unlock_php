@@ -33,6 +33,12 @@ class HTMLController
             ]);
         }
     }
+
+    public function menu(Request $request, Response $response): Response 
+    {
+
+        return $this->twig->render($response, 'menu.html.twig', ['title' => 'Menu', 'sessions'=> $_SESSION['user']]);
+    }
 }
 
 ?>

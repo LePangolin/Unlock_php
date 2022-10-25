@@ -42,12 +42,16 @@ function init(){
         })
         .then(response => {
             response.json().then(data => {
+                console.log(data)
             if(data.code == 400){
                 if(data.message == "Email ou mot de passe incorrect"){
                     document.getElementById('userLog').classList.add("error");
                     document.getElementById('pswdLog').classList.add("error");
                     alert("Email ou mot de passe incorrect");
                 }
+            }
+            if(data.code == 200) {
+                window.location.href = '/menu'
             }
             })
         })

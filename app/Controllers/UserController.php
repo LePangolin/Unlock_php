@@ -18,7 +18,9 @@ class UserController
         $user = $this->userService->signUp($request->getParsedBody()['user'], $request->getParsedBody()['pswd']);
         if($user){
             $_SESSION['user'] = $user;
-            // TODO : redirect to menu
+            $json = json_encode(['code' => 200, 'message' => 'Utilisateur inscrit']);
+            $response->getBody()->write($json);
+            return $response->withHeader('Content-Type', 'application/json');
         }else{
             $json = json_encode(['code' => 400, 'message' => 'Email déjà utilisé']);
             $response->getBody()->write($json);
@@ -31,7 +33,9 @@ class UserController
         $user = $this->userService->logIn($request->getParsedBody()['user'], $request->getParsedBody()['pswd']);
         if($user){
             $_SESSION['user'] = $user;
-            // TODO : redirect to menu
+            $json = json_encode(['code' => 200, 'message' => 'Utilisateur connecté']);
+            $response->getBody()->write($json);
+            return $response->withHeader('Content-Type', 'application/json');
         }else{
             $json = json_encode(array('code' => 400, 'message' => "Email ou mot de passe incorrect"));
             $response->getBody()->write($json);

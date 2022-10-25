@@ -35,7 +35,6 @@ final class UserService
 
     public function logIn($email, $pass){
 
-        echo(hash('md5',$pass));
         $user = $this->em->getRepository(User::class)->findOneBy(['email' => $email, 'password' => hash('md5',$pass)]);
 
         if ($user) {
