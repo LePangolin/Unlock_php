@@ -1,0 +1,53 @@
+{% include "head.html.twig"%}
+        <style>
+        {{ source("./assets/style/style.css") }}
+        {{ source("./assets/style/board.css") }}
+        </style>
+    </head>
+    <body>
+{% block body %}
+
+    {% if sessions is defined %}
+        {% for session in sessions %}
+            <div id="topbar">
+                <div id="stackDraw">
+                    <img src="" alt="stack draw" />
+                </div>
+                <div id="actions">
+                    <div id="actionDraw"> 
+                        <button class="action" id="draw">Piocher</button>
+                        <button class="action" id="nextDraw">Carte suivante</button>
+                        <button class="action" id="shuffle">Mélanger</button>
+                    </div>
+                    <div id="actionCards">
+                        <button class="action" id="discard">Défausser</button>
+                        <button class="action" id="backToDraw">Retour pioche</button>
+                        <button class="action" id="ungroup">Dégrouper</button>
+                        <button class="action" id="applyModif">Appliquer un modificateur</button>
+                        <button class="action" id="combine">Combiner</button>
+                        <button class="action" id="confirm" hidden="true">OK</button>
+                    </div>
+                    <div id="actionDiscardPile">
+                        <button class="action" id="getBack">Récupérer</button>
+                        <button class="action" id="nextDiscard">Carte suivante</button>
+                    </div>
+                </div>
+                <div id="discardPile">
+                    <img src="" alt="discard pile" />
+                </div>
+            </div>
+            <div id="board">
+                <div id="cards"></div>
+                <div id="menu">
+                    <button  id="save">Sauvegarder</button>
+                    <button  id="menu">Menu</button>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <script> window.location.href = "/"; </script>
+    {% endif %}
+
+{% endblock %}
+
+{% include "footer.html.twig"%}
