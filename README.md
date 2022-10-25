@@ -40,7 +40,7 @@ Une fois dans le container php
 ```
 
 
-5. slim app runs on http://localhost:8080
+3. slim app runs on http://localhost:8080
 
 
 # Lien Ressources
