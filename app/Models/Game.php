@@ -20,6 +20,7 @@ final class Game
 
     #[Column(type: 'string')]
     private string $deckId;
+    
 
     public function __construct(int $playerId, string $deckId)
     {
