@@ -11,8 +11,14 @@ AppFactory::setContainer($container);
 
 $app = AppFactory::create();
 
+$app->addBodyParsingMiddleware();
+
+// ROUTE GET
 $app->get('/', \App\Controllers\HTMLController::class . ':acceuil')->setName('acceuil');
 
-$app->get('/users', \App\Controllers\UserController::class . ':test');
+
+// ROUTE POST
+$app->post('/login', \App\Controllers\UserController::class . ':login')->setName('login');
+$app->post('/signup', \App\Controllers\UserController::class . ':signUp')->setName('signup');
 
 $app->run();

@@ -3,23 +3,28 @@
 
 {% block body %}
 
-    {% if sessions is defined %}
-        {% for session in sessions %}
-            <center>
-                <h1> Unlock! </h1>
-                <div class="session">
-                    <h2 id="Welcome" class="Title2 Center">Bienvenue ! {{ session.name }}</h2>
-                </div>
-            </center>
-        {% endfor %}
-    {% else %}
-        <center>
-            <h1> Unlock! </h1>
-            <div class="session">
-                <h2 id="Welcome" class="Title2 Center">Bienvenue !</h2>
-            </div>
-        </center>
-    {% endif %}
+    <p class="title"> Unlock ! </p>
+
+    <div class="main">  	
+		<input type="checkbox" id="chk" aria-hidden="true">
+        <div class="signup" id="registerForm">
+            <form id="formregister">
+                <label for="chk" aria-hidden="true">S'enregistrer</label>
+                <input type="text" name="user" id="user" placeholder="User name" required="">
+                <input type="password" placeholder="Password" id="psd" required="">
+                <input type="password" name="pswd" id="pswd" placeholder="Confirm Password" required="">
+                <button id="registerSubmit" disabled>Sign up</button>
+            </form>
+        </div>
+        <div class="login" id="loginForm">
+            <form>
+                <label for="chk" aria-hidden="true" class="SeC" >Se connecter</label>
+                <input type="text" name="user" placeholder="User name" id="userLog" required="">
+                <input type="password" name="pswd" placeholder="Password" id="pswdLog" required="">
+                <button id="loginSubmit">Login</button>
+            </form>
+        </div>
+	</div>
 
 {% endblock %}
 
