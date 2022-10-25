@@ -17,15 +17,33 @@ final class UserService
         $this->logger = $logger;
     }
 
-    public function signUp(string $email, string $pass): User
+    public function signUp(string $email, string $pass)
     {
+        try{
+            $newUser = new User($email, $pass);
+            $this->em->persist($newUser);
+            $this->em->flush();
+            $this->logger->info("User {$email} signed up");
+            return $newUser;
+        }catch (\Throwable $e) {
+            $newUser = null;
+            $this->logger->error("User {$email} failed to sign up");
+            throw $e;
+            return $newUser;
+        }
+    }
 
-        $newUser = new User($email, $pass);
-        $this->em->persist($newUser);
-        $this->em->flush();
-        
-        $this->logger->info("User {$email} signed up");
+    public function logIn($email, $pass){
 
-        return $newUser;
+        echo(hash('md5',$pass));
+        $user = $this->em->getRepository(User::class)->findOneBy(['email' => $email, 'password' => hash('md5',$pass)]);
+
+        if ($user) {
+            $this->logger->info("User {$email} logged in");
+            return $user;
+        }
+
+        return $user;
+
     }
 }

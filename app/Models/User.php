@@ -28,7 +28,7 @@ final class User
     public function __construct(string $email, string $password)
     {
         $this->email = filter_var($email);
-        $this->password = hash('sha256', filter_var($password));
+        $this->password = hash('md5', filter_var($password));
         $this->registeredAt = new DateTimeImmutable();
     }
 
