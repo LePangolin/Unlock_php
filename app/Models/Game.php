@@ -18,7 +18,7 @@ final class Game
     #[Column(type: 'integer')]
     private int $playerId;
 
-    #[Column(type: 'integer')]
+    #[Column(type: 'string')]
     private string $deckId;
 
     public function __construct(int $playerId, string $deckId)
