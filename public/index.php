@@ -15,4 +15,6 @@ $app->get('/', \App\Controllers\HTMLController::class . ':acceuil')->setName('ac
 
 $app->get('/users', \App\Controllers\UserController::class . ':test');
 
+$app->get('/gameboard/{gameId}[/]', \App\Controllers\HTMLController::class . ':gameboard')->setName('gameboard');
+
 $app->run();
