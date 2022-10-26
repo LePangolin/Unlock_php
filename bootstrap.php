@@ -10,8 +10,11 @@ use Psr\Container\ContainerInterface;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use App\Services\UserService;
+use App\Services\GameService;
+use App\Services\CardStateService;
 use App\Controllers\UserController;
 use App\Controllers\HTMLController;
+use App\Controllers\GameController;
 use Monolog\Level;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
@@ -71,5 +74,18 @@ $container->set(UserController::class, static function (Container $c) {
 $container->set(HTMLController::class, static function (Container $c) {
     return new HTMLController($c->get("view"));
 });
+
+$container->set(GameService::class, static function (Container $c) {
+    return new GameService($c->get(EntityManager::class), $c->get(LoggerInterface::class));
+});
+
+$container->set(CardStateService::class, static function (Container $c) {
+    return new CardStateService($c->get(EntityManager::class), $c->get(LoggerInterface::class));
+});
+
+$container->set(GameController::class, static function (Container $c) {
+    return new GameController($c->get("view"),$c->get(GameService::class), $c->get(CardStateService::class));
+});
+
 
 return $container;

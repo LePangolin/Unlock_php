@@ -15,20 +15,26 @@ use App\Helper\Enum;
 final class CardState
 {
 
-    #[Id, Column(type: 'integer'), GeneratedValue(strategy: 'AUTO')]
+    #[Id, Column(type: 'integer', nullable: false)]
     private int $idGame;
     
-    #[Column(type: 'integer',  nullable: false)]
+    #[Id, Column(type: 'string',  nullable: false)]
     private string $idCard;
 
-    #[Column(type: 'integer', nullable: false)]
+    #[Id, Column(type: 'integer', nullable: false)]
     private int $idState;
 
-    public function __construct(string $idCard, int $idState)
+    #[Id, Column(type: 'string',  nullable: false)]
+    private string $idDeck;
+
+    public function __construct(int $idGame ,string $idCard, int $idState, string $idDeck)
     {
+        $this->idGame = $idGame;
         $this->idCard = $idCard;
         $this->idState = $idState;
+        $this->idDeck = $idDeck;
     }
+
 
     public function getIdGame(): int
     {
@@ -44,5 +50,12 @@ final class CardState
     {
         return $this->idState;
     }
+
+    public function getIdDeck(): string
+    {
+        return $this->idDeck;
+    }
+
+
 
 }
