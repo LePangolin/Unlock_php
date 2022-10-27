@@ -20,18 +20,22 @@ class HTMLController
 
     public function acceuil(Request $request, Response $response): Response
     {
-        if( isset($_SESSION['user']) ) {
-            return $this->twig->render($response, 'index.html.twig', [
-                'title' => 'Acceuil',
-                'session' => [
-                    'name' => $_SESSION['user']
+        $fromError = $request->getQueryParams()['message'] ?? null;
+        if($fromError){
+            $message = $request->getQueryParams()['message'];
+            return $this->twig->render($response, 'index.html.twig',
+                [
+                    'title' => 'Acceuil',
+                    'fromError' => $fromError,
+                    "message" => $message
                 ]
-            ]);
-        } else {
-            return $this->twig->render($response, 'index.html.twig', [
-                'title' => 'Acceuil',
-            ]);
+            );
         }
+        return $this->twig->render($response, 'index.html.twig',
+            [
+                'title' => 'Acceuil',
+            ]
+        );
     }
 
     public function gameboard(Request $request, Response $response, $args): Response

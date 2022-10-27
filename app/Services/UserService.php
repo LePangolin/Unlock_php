@@ -20,6 +20,11 @@ final class UserService
     public function signUp(string $email, string $pass)
     {
         try{
+            // Check if email already exists
+            $user = $this->em->getRepository(User::class)->findOneBy(['email' => $email]);
+            if($user){
+                return false;
+            }
             $newUser = new User($email, $pass);
             $this->em->persist($newUser);
             $this->em->flush();

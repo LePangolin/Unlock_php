@@ -20,9 +20,7 @@ class UserController
             $_SESSION['user'] = $user;
             // TODO : redirect to menu
         }else{
-            $json = json_encode(['code' => 400, 'message' => 'Email déjà utilisé']);
-            $response->getBody()->write($json);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $response->withHeader('Location', '/?message=Email déjà utilisé')->withStatus(302);
         }
     }
 
@@ -33,9 +31,7 @@ class UserController
             $_SESSION['user'] = $user;
             // TODO : redirect to menu
         }else{
-            $json = json_encode(array('code' => 400, 'message' => "Email ou mot de passe incorrect"));
-            $response->getBody()->write($json);
-            return $response->withHeader('Content-Type', 'application/json');
+            return $response->withHeader('Location', '/?message=Email ou mot de passe incorrect')->withStatus(302);
         }
     }
 }
