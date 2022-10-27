@@ -18,7 +18,7 @@ class UserController
         $user = $this->userService->signUp($request->getParsedBody()['user'], $request->getParsedBody()['pswd']);
         if($user){
             $_SESSION['user'] = $user;
-            // TODO : redirect to menu
+            return $response->withHeader('Location', '/menu')->withStatus(302);
         }else{
             return $response->withHeader('Location', '/?message=Email déjà utilisé')->withStatus(302);
         }
@@ -29,7 +29,7 @@ class UserController
         $user = $this->userService->logIn($request->getParsedBody()['user'], $request->getParsedBody()['pswd']);
         if($user){
             $_SESSION['user'] = $user;
-            // TODO : redirect to menu
+            return $response->withHeader('Location', '/menu')->withStatus(302);
         }else{
             return $response->withHeader('Location', '/?message=Email ou mot de passe incorrect')->withStatus(302);
         }

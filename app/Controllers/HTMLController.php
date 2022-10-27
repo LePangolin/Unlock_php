@@ -50,6 +50,20 @@ class HTMLController
             ]);
         }
     }
+
+    public function menu(Request $request, Response $response, $args): Response
+    {
+        if( isset($_SESSION['user']) ) {
+            return $this->twig->render($response, 'menu.html.twig', [
+                'title' => 'Menu',
+                'sessions' => $_SESSION['user'],
+            ]);
+        } else {
+            return $this->twig->render($response, 'index.html.twig', [
+                'title' => 'Acceuil',
+            ]);
+        }
+    }
 }
 
 ?>
