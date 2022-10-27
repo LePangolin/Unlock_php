@@ -20,6 +20,11 @@ final class UserService
     public function signUp(string $email, string $pass)
     {
         try{
+            // Check if email already exists
+            $user = $this->em->getRepository(User::class)->findOneBy(['email' => $email]);
+            if($user){
+                return false;
+            }
             $newUser = new User($email, $pass);
             $this->em->persist($newUser);
             $this->em->flush();
@@ -35,7 +40,6 @@ final class UserService
 
     public function logIn($email, $pass){
 
-        echo(hash('md5',$pass));
         $user = $this->em->getRepository(User::class)->findOneBy(['email' => $email, 'password' => hash('md5',$pass)]);
 
         if ($user) {

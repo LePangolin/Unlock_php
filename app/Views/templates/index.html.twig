@@ -7,12 +7,15 @@
     <body>
 {% block body %}
 
-    <p class="title"> Unlock ! </p>
+    <div class="popUpError error hidden">
 
-    <div class="main">  	
-		<input type="checkbox" id="chk" aria-hidden="true">
+    </div>
+
+    <p class="title"> Unlock ! </p>
+    <div class="main">
+        <input type="checkbox" id="chk" aria-hidden="true">
         <div class="signup" id="registerForm">
-            <form id="formregister">
+            <form id="formregister" method="post" action="/signup">
                 <label for="chk" aria-hidden="true">S'enregistrer</label>
                 <input type="text" name="user" id="user" placeholder="User name" required="">
                 <input type="password" placeholder="Password" id="psd" required="">
@@ -21,10 +24,10 @@
             </form>
         </div>
         <div class="login" id="loginForm">
-            <form>
+            <form method="post" action="/login">
                 <label for="chk" aria-hidden="true" class="SeC" >Se connecter</label>
                 <input type="text" name="user" placeholder="User name" id="userLog" required="">
-                <input type="password" name="pswd" placeholder="Password" id="pswdLog" required="">
+                <input type="password" name="pswd" placeholder="Password" id="pswdLog" required="">       
                 <button id="loginSubmit">Login</button>
             </form>
         </div>
@@ -35,6 +38,21 @@
 
     </body>
     <script>
-        {{ source('./assets/script/index.js')}}
+        {{ source("./assets/script/index.js") }}
+        {% if fromError is defined %}
+            {% if message == "Email ou mot de passe incorrect" %}
+                document.getElementById("chk").checked = true;
+                document.getElementById("userLog").classList.add("error");
+                document.getElementById("pswdLog").classList.add("error");
+            {% endif %}
+            {% if message == "Email déjà utilisé" %}
+                document.getElementById("user").classList.add("error");
+            {% endif %}
+            document.querySelector(".popUpError").classList.remove("hidden");
+            document.querySelector(".popUpError").innerHTML = "<p>&nbsp;❌&nbsp;{{ message }}&nbsp;</p>";
+                setTimeout(function(){
+                     document.querySelector(".popUpError").classList.add("transtion");
+                }, 2000);
+        {% endif %}
     </script>
 {% include "footer.html.twig"%}

@@ -15,6 +15,7 @@ $app->addBodyParsingMiddleware();
 
 // ROUTE GET
 $app->get('/', \App\Controllers\HTMLController::class . ':acceuil')->setName('acceuil');
+$app->get('/game/{id}', \App\Controllers\GameController::class . ':game')->setName('game');
 
 
 // ROUTE POST
