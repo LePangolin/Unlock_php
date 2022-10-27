@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Services\CardService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use App\Services\GameService;
@@ -13,28 +14,19 @@ class GameController
 
     private Twig $twig;
 
-    public function __construct(Twig $twig, GameService $gameService, CardStateService $cardStateService)
+    public function __construct(Twig $twig, GameService $gameService, CardStateService $cardStateService, CardService $cardService)
     {
         $this->twig = $twig;
         $this->gameService = $gameService;
         $this->cardStateService = $cardStateService;
+        $this->cardService = $cardService;
     }
 
 
     public function game(Request $request, Response $response, $args): Response
     {
-        $cards = $this->gameService->getGame($args['id'], $this->cardStateService);
-        // create an array of cards
-        $cardsArray = [];
-        foreach ($cards as $card) {
-            $cardsArray[] = [
-                'idGame' => $card->getIdGame(),
-                'idCard' => $card->getIdCard(),
-                'state' => $card->getIdState(),
-                'idDeck' => $card->getIdDeck(),
-            ];
-        }
-        $json = json_encode($cardsArray);
+        $cards = $this->gameService->getGame($args['id'], $this->cardStateService, $this->cardService);
+        $json = json_encode($cards);
         $response->getBody()->write($json);
         return $response->withHeader('Content-Type', 'application/json');
     }

@@ -12,6 +12,7 @@ use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use App\Services\UserService;
 use App\Services\GameService;
 use App\Services\CardStateService;
+use App\Services\CardService;
 use App\Controllers\UserController;
 use App\Controllers\HTMLController;
 use App\Controllers\GameController;
@@ -83,8 +84,12 @@ $container->set(CardStateService::class, static function (Container $c) {
     return new CardStateService($c->get(EntityManager::class), $c->get(LoggerInterface::class));
 });
 
+$container->set(CardService::class, static function (Container $c) {
+    return new CardService($c->get(EntityManager::class), $c->get(LoggerInterface::class));
+});
+
 $container->set(GameController::class, static function (Container $c) {
-    return new GameController($c->get("view"),$c->get(GameService::class), $c->get(CardStateService::class));
+    return new GameController($c->get("view"),$c->get(GameService::class), $c->get(CardStateService::class), $c->get(CardService::class));
 });
 
 

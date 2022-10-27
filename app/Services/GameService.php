@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManager;
 use App\Models\Game;
 use Psr\Log\LoggerInterface;
 use App\Services\CardStateService;
+use App\Services\CardService;
 
 final class GameService
 {
@@ -17,7 +18,7 @@ final class GameService
         $this->logger = $logger;
     }
 
-    public function getGame(int $gameId, CardStateService $cardStateService){
+    public function getGame(int $gameId, CardStateService $cardStateService, CardService $cardService){
         
         $game = $this->em->getRepository(Game::class)->findOneBy(['id' => $gameId]);
         
@@ -25,9 +26,30 @@ final class GameService
             
             $cardStates = $cardStateService->getCardStates($gameId);
 
+            $cards = [];
+            foreach($cardStates as $cardState){
+                $card = $cardService->getCard($cardState->getIdCard());
+                $cards[] = $card;
+            }
+
+            $finalTable = [];
+            foreach($cards as $card){
+                foreach($cardStates as $cardState){
+                    if($card->getId() == $cardState->getIdCard()){
+                        $finalTable[] = [
+                            'id' => $card->getId(),
+                            'path_to_recto' => $card->getPathToRecto(),
+                            'path_to_verso' => $card->getPathToVerso(),
+                            'state' => $cardState->getIdState(),
+                            'deck_id' => $card->getDeckId()
+                        ];
+                    }
+                }
+            }
+
             $this->logger->info("Game {$gameId} found");
 
-            return $cardStates;
+            return $finalTable;
         }
 
         $this->logger->error("Game {$gameId} not found");
