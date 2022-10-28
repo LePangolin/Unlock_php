@@ -33,8 +33,8 @@ class GameController
 
     public function createGame(Request $request, Response $response, $args): Response
     {
-        $game = $this->gameService->createGame($_SESSION['user']->getId(), $request->getParsedBody()['deckId'], $this->cardStateService, $this->cardService);
-        return $response->withHeader('Location', '/game/'.$game->getId())->withStatus(302);
+        $gameId = $this->gameService->createGame($_SESSION['user']->getId(), $request->getParsedBody()['deckId'], $this->cardStateService, $this->cardService);
+        return $response->withHeader('Location', '/game/'.$gameId)->withStatus(302);
     }
 
 }
