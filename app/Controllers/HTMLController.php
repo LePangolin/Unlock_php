@@ -50,6 +50,13 @@ class HTMLController
             ]);
         }
     }
+
+    public function tmp(Request $request, Response $response): Response
+    {
+        return $this->twig->render($response, 'tmp.html.twig', [
+            'title' => 'temporary page',
+        ]);
+    }
 }
 
 ?>

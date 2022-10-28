@@ -29,7 +29,7 @@ class UserController
         $user = $this->userService->logIn($request->getParsedBody()['user'], $request->getParsedBody()['pswd']);
         if($user){
             $_SESSION['user'] = $user;
-            // TODO : redirect to menu
+            return $response->withHeader('Location', '/tmp')->withStatus(302);
         }else{
             return $response->withHeader('Location', '/?message=Email ou mot de passe incorrect')->withStatus(302);
         }
