@@ -38,42 +38,32 @@ final class GameService
 
             /* On récupère les données fixes des cartes qu'on associe aux données spécifiques de la carte dans la partie */
             foreach ($cardStates as $cardState) {
+                $card = $cardService->getCard($cardState->getIdCard());
+                $cardData =  [
+                    'id' => $card->getId(),
+                    'idState' => $cardState->getIdState(),
+                    'path_to_verso' => $card->getPathToVerso(),
+                    'path_to_recto' => $card->getPathToRecto(),
+                ];
                 /* Placement de la carte dans le tableau correspondant a sa position */
                 switch ($cardState->getIdState()) {
                     case Enum::DRAW:
-                        $card = $cardService->getCard($cardState->getIdCard());
-                        $drawPile[] = [
-                            'id' => $card->getId(),
-                            'idState' => $cardState->getIdState(),
-                            'path_to_verso' => $card->getPathToVerso(),
-                            'path_to_recto' => $card->getPathToRecto(),
-                        ];
+                        $drawPile[] = $cardData;
                         break;
                     case Enum::DISCARD:
-                        $card = $cardService->getCard($cardState->getIdCard());
-                        $discardPile[] =  [
-                            'id' => $card->getId(),
-                            'idState' => $cardState->getIdState(),
-                            'path_to_verso' => $card->getPathToVerso(),
-                            'path_to_recto' => $card->getPathToRecto(),
-                        ];
+                        $discardPile[] = $cardData;
                         break;
                     case Enum::PLAY:
-                        $card = $cardService->getCard($cardState->getIdCard());
-                        $gameboard[] =  [
-                            'id' => $card->getId(),
-                            'idState' => $cardState->getIdState(),
-                            'path_to_verso' => $card->getPathToVerso(),
-                            'path_to_recto' => $card->getPathToRecto(),
-                        ];
+                        $gameboard[] = $cardData;
                         break;
                 }
             }
             $this->logger->info("Game {$gameId} found");
 
-            /* On ajoute les tableaux de cartes à la partie */
+            /* On ajoute les tableaux de cartes dans un tableau */
             array_push($finalTable, $drawPile, $discardPile, $gameboard);
 
+            /* On retourne ce dernier */
             return $finalTable;
         }
 

@@ -14,23 +14,20 @@ use Doctrine\ORM\Mapping\Table;
 final class Card
 {
 
+    /* variables constantes pour les cartes récurrentes et leurs chemins images */
+    const MAINCARD = "Main";
+    const DISCARD_DEFAULT = "Discard";
+    const IMG_PATH = "img/cards/";
+
     #[Id, Column(type: 'string'), JoinColumn(name: '', referencedColumnName: 'idCard')]
     private string $id;
 
     #[Id, Column(type: 'string')]
     private string $deckId;
 
-    #[Column(type: 'string')]
-    private string $pathToRecto;
-
-    #[Column(type: 'string')]
-    private string $pathToVerso;
-
-    public function __construct(string $deckId, string $pathToRecto, string $pathToVerso)
+    public function __construct(string $deckId)
     {
         $this->deckId = $deckId;
-        $this->pathToRecto = $pathToRecto;
-        $this->pathToVerso = $pathToVerso;
     }
 
     public function getId(): string
@@ -45,12 +42,11 @@ final class Card
 
     public function getPathToRecto(): string
     {
-        return $this->pathToRecto;
+        return Card::IMG_PATH . "recto/" . $this->deckId . "/" . $this->id . ".png";
     }
 
     public function getPathToVerso(): string
     {
-        return $this->pathToVerso;
+        return Card::IMG_PATH . "verso/" . $this->deckId . "/" . $this->id . ".png";
     }
-
 }

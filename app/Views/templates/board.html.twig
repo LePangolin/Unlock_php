@@ -1,6 +1,5 @@
 {% include "head.html.twig"%}
         <style>
-        {{ source("./assets/style/style.css") }}
         {{ source("./assets/style/board.css") }}
         </style>
     </head>
@@ -10,7 +9,7 @@
     {% if sessions is defined %}
             <div id="topbar">
                 <div id="stackDraw">
-                    <img src="../{{ drawPile[0]['path_to_recto'] }}" alt="stack draw" />
+                    <img src="../{{ drawPile[0]['path_to_verso'] }}" alt="stack draw" />
                 </div>
                 <div id="actions">
                     <div id="actionDraw"> 
@@ -24,22 +23,23 @@
                         <button class="action" id="ungroup">Dégrouper</button>
                         <button class="action" id="applyModif">Appliquer un modificateur</button>
                         <button class="action" id="combine">Combiner</button>
-                        <button class="action" id="confirm" hidden="true">OK</button>
                     </div>
-                    <div id="actionDiscardPile">
+                    <div id="actionDiscard">
                         <button class="action" id="getBack">Récupérer</button>
                         <button class="action" id="nextDiscard">Carte suivante</button>
                     </div>
                 </div>
-                <div id="discardPile">
-                    <img src="" alt="discard pile" />
+                <div id="stackDiscard">
+                    <img src="../{{ discardPile[0]['path_to_verso'] }}" alt="discard pile" />
                 </div>
             </div>
             <div id="board">
-                <div id="cards"></div>
-                <div id="menu">
+                <div id="cards">
+                <img src="../{{ gameboard[0]['path_to_recto'] }}" alt="startCard">
+                </div>
+                <div id="boardMenu">
                     <button  id="save">Sauvegarder</button>
-                    <button  id="menu">Menu</button>
+                    <button  id="backToMenu">Menu</button>
                 </div>
             </div>
     {% else %}

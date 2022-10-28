@@ -18,6 +18,7 @@ class GameController
     private CardService $cardService;
     private CardStateService $cardStateService;
 
+    /* Tableaux correspondants aux différentes positions des cartes (pioche, défausse, jeu) */
     private array $drawPile = [];
     private array $discardPile = [];
     private array $gameboard = [];
@@ -30,21 +31,16 @@ class GameController
         $this->cardService = $cardService;
     }
 
-
     /* Affichage de la page de jeu */
     public function game(Request $request, Response $response, $args): Response
     {
-        /* Récupérations des données de la partie */
+        /* Récupérations des données de la partie, voir GameService::getGame */
         $cards = $this->gameService->getGame($args['id'], $this->cardStateService, $this->cardService);
         $this->drawPile = $cards[0];
         $this->discardPile = $cards[1];
         $this->gameboard = $cards[2];
 
-        // $json = json_encode($this->drawPile);
-        // $response->getBody()->write($json);
-        // return $response->withHeader('Content-Type', 'application/json');
-
-        /* Appel de la vue */
+        /* Appel de la vue en lui passant les tableaux de positions*/
         return $this->twig->render($response, 'board.html.twig', [
             'title' => 'Gameboard',
             'sessions' => $_SESSION['user'],
