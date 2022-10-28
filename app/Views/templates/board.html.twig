@@ -8,10 +8,9 @@
 {% block body %}
 
     {% if sessions is defined %}
-        {% for session in sessions %}
             <div id="topbar">
                 <div id="stackDraw">
-                    <img src="" alt="stack draw" />
+                    <img src="../{{ drawPile[0]['path_to_recto'] }}" alt="stack draw" />
                 </div>
                 <div id="actions">
                     <div id="actionDraw"> 
@@ -43,7 +42,6 @@
                     <button  id="menu">Menu</button>
                 </div>
             </div>
-        {% endfor %}
     {% else %}
         <script> window.location.href = "/"; </script>
     {% endif %}

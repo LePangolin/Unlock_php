@@ -18,11 +18,11 @@ final class CardService
 
     public function getCard($id)
     {
-        try{
+        try {
             $card = $this->em->getRepository(Card::class)->findOneBy(['id' => $id]);
             $this->logger->info("Card {$id} found");
             return $card;
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             $this->logger->error("Card {$id} not found : " . $e->getMessage());
             return [];
         }
@@ -30,11 +30,11 @@ final class CardService
 
     public function getCards()
     {
-        try{
+        try {
             $cards = $this->em->getRepository(Card::class)->findAll();
             $this->logger->info("Cards found");
             return $cards;
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             $this->logger->error("Cards not found : " . $e->getMessage());
             return [];
         }
@@ -42,12 +42,11 @@ final class CardService
 
     public function getCardByDeckId($deckId)
     {
-        try{
+        try {
             $cards = $this->em->getRepository(Card::class)->findBy(['deckId' => $deckId]);
             $this->logger->info("Cards for deck {$deckId} found");
             return $cards;
-        }
-        catch(\Exception $e){
+        } catch (\Exception $e) {
             $this->logger->error("Cards for deck {$deckId} not found : " . $e->getMessage());
             return [];
         }
