@@ -18,9 +18,11 @@ $app->get('/', \App\Controllers\HTMLController::class . ':acceuil')->setName('ac
 $app->get('/game/{id}', \App\Controllers\GameController::class . ':game')->setName('game');
 $app->get('/menu', \App\Controllers\HTMLController::class . ':menu')->setName('menu');
 
+
 // ROUTE POST
 $app->post('/login', \App\Controllers\UserController::class . ':login')->setName('login');
 $app->post('/signup', \App\Controllers\UserController::class . ':signUp')->setName('signup');
+$app->post('/game', \App\Controllers\GameController::class . ':createGame')->setName('createGame');
 
 $app->get('/gameboard/{gameId}[/]', \App\Controllers\HTMLController::class . ':gameboard')->setName('gameboard');
 

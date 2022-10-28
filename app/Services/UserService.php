@@ -32,22 +32,32 @@ final class UserService
             return $newUser;
         }catch (\Throwable $e) {
             $newUser = null;
-            $this->logger->error("User {$email} failed to sign up");
-            throw $e;
-            return $newUser;
+            $this->logger->error("User {$email} failed to sign up : " . $e->getMessage());
+            return false;
         }
     }
 
     public function logIn($email, $pass){
 
-        $user = $this->em->getRepository(User::class)->findOneBy(['email' => $email, 'password' => hash('md5',$pass)]);
-
-        if ($user) {
-            $this->logger->info("User {$email} logged in");
-            return $user;
+        try{
+            $user = $this->em->getRepository(User::class)->findOneBy(['email' => $email]);
+            if($user){
+                if($user->getPassword() == $pass){
+                    $this->logger->info("User {$email} logged in");
+                    return $user;
+                }
+                else{
+                    $this->logger->info("User {$email} failed to log in : wrong password");
+                    return false;
+                }
+            }
+            else{
+                $this->logger->info("User {$email} failed to log in : user not found");
+                return false;
+            }
+        }catch (\Throwable $e) {
+            $this->logger->error("User {$email} failed to log in : " . $e->getMessage());
+            return false;
         }
-
-        return $user;
-
     }
 }

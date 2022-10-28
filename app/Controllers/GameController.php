@@ -31,5 +31,11 @@ class GameController
         return $response->withHeader('Content-Type', 'application/json');
     }
 
+    public function createGame(Request $request, Response $response, $args): Response
+    {
+        $gameId = $this->gameService->createGame($_SESSION['user']->getId(), $request->getParsedBody()['deckId'], $this->cardStateService, $this->cardService);
+        return $response->withHeader('Location', '/game/'.$gameId)->withStatus(302);
+    }
+
 }
 ?>

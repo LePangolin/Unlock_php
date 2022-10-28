@@ -18,22 +18,38 @@ final class CardService
 
     public function getCard($id)
     {
-        $card = $this->em->getRepository(Card::class)->findOneBy(['id' => $id]);
-        $this->logger->info("Card {$id} found");
-        return $card;
+        try{
+            $card = $this->em->getRepository(Card::class)->findOneBy(['id' => $id]);
+            $this->logger->info("Card {$id} found");
+            return $card;
+        }catch(\Exception $e){
+            $this->logger->error("Card {$id} not found : " . $e->getMessage());
+            return [];
+        }
     }
 
     public function getCards()
     {
-        $cards = $this->em->getRepository(Card::class)->findAll();
-        $this->logger->info("Cards found");
-        return $cards;
+        try{
+            $cards = $this->em->getRepository(Card::class)->findAll();
+            $this->logger->info("Cards found");
+            return $cards;
+        }catch(\Exception $e){
+            $this->logger->error("Cards not found : " . $e->getMessage());
+            return [];
+        }
     }
 
     public function getCardByDeckId($deckId)
     {
-        $cards = $this->em->getRepository(Card::class)->findBy(['deck_id' => $deckId]);
-        $this->logger->info("Cards found for deck {$deckId}");
-        return $cards;
+        try{
+            $cards = $this->em->getRepository(Card::class)->findBy(['deckId' => $deckId]);
+            $this->logger->info("Cards for deck {$deckId} found");
+            return $cards;
+        }
+        catch(\Exception $e){
+            $this->logger->error("Cards for deck {$deckId} not found : " . $e->getMessage());
+            return [];
+        }
     }
 }
