@@ -51,11 +51,18 @@ class HTMLController
         }
     }
 
-    public function tmp(Request $request, Response $response): Response
+    public function menu(Request $request, Response $response, $args): Response
     {
-        return $this->twig->render($response, 'tmp.html.twig', [
-            'title' => 'temporary page',
-        ]);
+        if( isset($_SESSION['user']) ) {
+            return $this->twig->render($response, 'menu.html.twig', [
+                'title' => 'Menu',
+                'sessions' => $_SESSION['user'],
+            ]);
+        } else {
+            return $this->twig->render($response, 'index.html.twig', [
+                'title' => 'Acceuil',
+            ]);
+        }
     }
 }
 

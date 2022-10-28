@@ -1,0 +1,19 @@
+{% include "head.html.twig"%}
+
+{% block body %}
+
+    {% if sessions is defined %}
+        <div>
+            <button class="menu-button" id="create-game">Créer une partie</button>
+            <select name="decks" id="deck-select">
+                <option value="">--Sélectionner un Deck--</option>
+            </select>
+            <button class="menu-button" id="load-game">Charger une partie</button>
+        </div>
+    {% else %}
+        <script> window.location.href = "/" </script>
+    {% endif %}
+
+{% endblock %}
+
+{% include "footer.html.twig"%}
