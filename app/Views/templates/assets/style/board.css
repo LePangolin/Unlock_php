@@ -93,8 +93,14 @@ body {
   overflow-x: auto;
 }
 
-.card {
+/* De l'espace entre chaque emplacement de carte */
+#cards div {
   margin-right: 1rem;
+}
+
+/* Une visibilité sur les cartes sélectionnées */
+.selected {
+  box-shadow: 0 0 0 0.2rem rgba(255, 75, 75, 0.8);
 }
 
 /* Emplacement du menu de sauvegarde et de retour à l'accueil */
