@@ -9,7 +9,7 @@
     {% if sessions is defined %}
             <div id="topbar">
                 <div id="stackDraw">
-                    <img src="../{{ drawPile[0]['path_to_verso'] }}" alt="stack draw" />
+                    <img src="../{{ drawPile[0]['path_to_verso'] }}" alt="stack draw" class="card" draggable="false"/>
                 </div>
                 <div id="actions">
                     <div id="actionDraw"> 
@@ -30,14 +30,14 @@
                     </div>
                 </div>
                 <div id="stackDiscard">
-                    <img src="../{{ discardPile[0]['path_to_verso'] }}" alt="discard pile" />
+                    <img src="../{{ discardPile[0]['path_to_verso'] }}" alt="discard pile" class="card" draggable="false"/>
                 </div>
             </div>
             <div id="board">
                 <div id="cards">
                     {% for card in gameboard %}
                     <div class="cardContainer">
-                        <img src="../{{ card['path_to_recto'] }}" alt="card_{{ card['id'] }}"  class="card" data-id="{{ card['id'] }}"/>
+                        <img src="../{{ card['path_to_recto'] }}" alt="card_{{ card['id'] }}"  class="card" data-id="{{ card['id'] }}" draggable="false"/>
                     </div>
                     {% endfor %}
                 </div>
@@ -49,6 +49,41 @@
     {% else %}
         <script> window.location.href = "/"; </script>
     {% endif %}
+
+<script>
+    let selectedCards = [];
+    // Mettre true pour les combinaisons et modificateurs
+    let additionMode = false;
+    
+    // Récupère toutes les cartes présentes dans l'html (visibles)
+    let cards = Array.from(document.getElementsByClassName("card"));
+    
+    // Fonction qui donne l'event listener a une carte
+    function selectCardsListener (card) {
+        card.addEventListener("click", function() {
+                if (selectedCards.includes(card)) {
+                card.classList.remove("selected");
+                selectedCards.splice(selectedCards.indexOf(card), 1);
+            } else {
+                if (additionMode == false) {
+                    if (selectedCards.length > 0) {
+                        selectedCards.forEach(card => {
+                            card.classList.remove("selected");
+                        });
+                        selectedCards = [];
+                    }
+                }
+                card.classList.add("selected");
+                selectedCards.push(card);
+            }      
+        });
+    }
+
+    // Donne l'event listener aux cartes déjà visibles 
+    cards.forEach(card => {
+        selectCardsListener(card);
+    });
+</script>
 
 {% endblock %}
 
