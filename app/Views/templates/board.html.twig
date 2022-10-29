@@ -9,7 +9,7 @@
     {% if sessions is defined %}
             <div id="topbar">
                 <div id="stackDraw">
-                    <img src="../{{ drawPile[0]['path_to_verso'] }}" alt="stack draw" />
+                    <img id="draw" src="../{{ drawPile[0]['path_to_verso'] }}" alt="stack draw" />
                 </div>
                 <div id="actions">
                     <div id="actionDraw"> 
@@ -46,6 +46,30 @@
         <script> window.location.href = "/"; </script>
     {% endif %}
 
+    <script>
+        let  i = 0;
+
+        document.getElementById("nextDraw").addEventListener("click", draw);
+
+        function draw(){
+            let max = {{ drawPile|length }};
+            let draw = document.getElementById("draw");
+            let drawPile = {{ drawPile|json_encode|raw }};
+            let path = drawPile[i].path_to_verso;
+            console.log(i);
+            if(i < max-1){
+                draw.src = `../${path}`;
+                i++;
+            }else{
+                draw.src = `../${path}`;
+                i = 0;
+            }
+        }
+    </script>
+
 {% endblock %}
+
+    </body>
+   
 
 {% include "footer.html.twig"%}
