@@ -49,14 +49,20 @@
     <script>
         let  i = 0;
 
+        let drawPile = {{ drawPile|json_encode|raw }};
+
         document.getElementById("nextDraw").addEventListener("click", draw);
+
+        document.getElementById("shuffle").addEventListener("click", 
+            function() {
+                drawPile = shuffle(drawPile);
+            }
+        );
 
         function draw(){
             let max = {{ drawPile|length }};
             let draw = document.getElementById("draw");
-            let drawPile = {{ drawPile|json_encode|raw }};
             let path = drawPile[i].path_to_verso;
-            console.log(i);
             if(i < max-1){
                 draw.src = `../${path}`;
                 i++;
@@ -64,6 +70,25 @@
                 draw.src = `../${path}`;
                 i = 0;
             }
+        }
+
+
+        function shuffle(){
+            let currentIndex = drawPile.length,  randomIndex;
+
+            // While there remain elements to shuffle.
+            while (currentIndex != 0) {
+
+                // Pick a remaining element.
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+
+                // And swap it with the current element.
+                [drawPile[currentIndex], drawPile[randomIndex]] = [
+                drawPile[randomIndex], drawPile[currentIndex]];
+            }
+
+            return drawPile;
         }
     </script>
 
