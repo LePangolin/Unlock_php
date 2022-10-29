@@ -50,6 +50,15 @@ class GameController
             }
         }
 
+        /* On s'assure que la carte Discard est bien en position 0 dans la défausse*/
+        foreach ($this->discardPile as $key => $card) {
+            if ($card['id'] == Card::DISCARD_DEFAULT) {
+                $discard = $this->discardPile[$key];
+                unset($this->discardPile[$key]);
+                array_unshift($this->discardPile, $discard);
+            }
+        }
+
         /* Appel de la vue en lui passant les tableaux de positions*/
         return $this->twig->render($response, 'board.html.twig', [
             'title' => 'Gameboard',
