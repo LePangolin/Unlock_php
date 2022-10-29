@@ -35,7 +35,11 @@
             </div>
             <div id="board">
                 <div id="cards">
-                <img src="../{{ gameboard[0]['path_to_recto'] }}" alt="startCard">
+                    {% for card in gameboard %}
+                    <div class="cardContainer">
+                        <img src="../{{ card['path_to_recto'] }}" alt="card_{{ card['id'] }}"  class="card" data-id="{{ card['id'] }}"/>
+                    </div>
+                    {% endfor %}
                 </div>
                 <div id="boardMenu">
                     <button  id="save">Sauvegarder</button>

@@ -9,6 +9,7 @@ use App\Services\GameService;
 use App\Services\CardStateService;
 use Slim\Views\Twig;
 use App\Helper\Enum;
+use App\Models\Card;
 
 class GameController
 {
@@ -39,6 +40,24 @@ class GameController
         $this->drawPile = $cards[0];
         $this->discardPile = $cards[1];
         $this->gameboard = $cards[2];
+
+        /* On s'assure que la carte Main est bien en position 0 dans le jeu*/
+        foreach ($this->gameboard as $key => $card) {
+            if ($card['id'] == Card::MAINCARD) {
+                $main = $this->gameboard[$key];
+                unset($this->gameboard[$key]);
+                array_unshift($this->gameboard, $main);
+            }
+        }
+
+        /* On s'assure que la carte Discard est bien en position 0 dans la défausse*/
+        foreach ($this->discardPile as $key => $card) {
+            if ($card['id'] == Card::DISCARD_DEFAULT) {
+                $discard = $this->discardPile[$key];
+                unset($this->discardPile[$key]);
+                array_unshift($this->discardPile, $discard);
+            }
+        }
 
         /* Appel de la vue en lui passant les tableaux de positions*/
         return $this->twig->render($response, 'board.html.twig', [
