@@ -87,7 +87,7 @@
 
 
     {# FONCTIONS D'ACTION SUR L'AFFICHAGE ET LES TABLEAU DE CARTE #}
-    let  i = 0;
+    let  i = 1;
 
     {# RECUPERATION DES TABLEAU DE CARTES  #}
     let drawPile = {{ drawPile|json_encode|raw }};
@@ -109,6 +109,7 @@
     document.getElementById("shuffle").addEventListener("click", 
         function() {
             drawPile = shuffle(drawPile);
+            nextCard("draw");
         }
     );
     document.getElementById("draw").addEventListener("click", draw);
@@ -121,6 +122,9 @@
 
     {# FONCTION QUI PERMET DE PIOCHER LA CARTE COURANTE DANS LA PIOCHE #}
     function draw(){
+        if(drawPile.length == 0){
+            return;
+        }
         let draw = document.getElementById("drawCarte");
         // retrouve la carte dans le tableau de carte
         let card = drawPile.find(card => card.id == draw.dataset.id);
@@ -134,6 +138,7 @@
         newCard.alt = `card_${card.id}`;
         newCard.classList.add("card");
         newCard.dataset.id = card.id;
+        newCard.draggable = false;
         cardContainer.appendChild(newCard);
         document.getElementById("cards").appendChild(cardContainer);
         // donne l'event listener a la carte
@@ -148,60 +153,89 @@
     function nextCard(pile){
         if(pile == "draw"){
             let max = drawPile.length;
-            let draw = document.getElementById("drawCarte");
-            let path = drawPile[i].path_to_verso;
-            if(i < max-1){
-                draw.src = `../${path}`;
-                i++;
+            if(max == 0){
+                document.getElementById("drawCarte").src = discardPath;
             }else{
-                draw.src = `../${path}`;
-                i = 0;
+                let draw = document.getElementById("drawCarte");
+                if(i < max-1){
+                    draw.src = `../${drawPile[i].path_to_verso}`;
+                    draw.dataset.id = drawPile[i].id;
+                    i++;
+                }else if( i > max-1){
+                    i = 0;
+                    draw.src = `../${drawPile[i].path_to_verso}`;
+                    draw.dataset.id = drawPile[i].id;
+                }else{
+                    draw.src = `../${drawPile[i].path_to_verso}`;
+                    draw.dataset.id = drawPile[i].id;
+                    i = 0;
+                }
             }
-            draw.dataset.id = drawPile[i].id;
         }
         if(pile == "discard"){
             let max = discardPile.length;
             if(max == 0){
                 document.getElementById("discardCard").src = discardPath;
             }else{
+                console.log(i);
                 let draw = document.getElementById("discardCard");
-                let path = discardPile[i].path_to_verso;
                 if(i < max-1){
-                    draw.src = `../${path}`;
+                    draw.src = `../${discardPile[i].path_to_verso}`;
+                    draw.dataset.id = discardPile[i].id;
                     i++;
+                }else if( i > max-1){
+                    i = 0;
+                    draw.src = `../${discardPile[i].path_to_verso}`;
+                    draw.dataset.id = discardPile[i].id;
                 }else{
-                    draw.src = `../${path}`;
+                    draw.src = `../${discardPile[i].path_to_verso}`;
+                    draw.dataset.id = discardPile[i].id;
                     i = 0;
                 }
-                draw.dataset.id = discardPile[i].id;
             }
         }
         
     }
     {# PERMET DE MELANGER LE PAQUET DE CARTE #}
     function shuffle(){
-        let currentIndex = drawPile.length;
-        let randomIndex;
-        while (currentIndex != 0) {
-            randomIndex = Math.floor(Math.random() * currentIndex);
-            currentIndex--;
-            [drawPile[currentIndex], drawPile[randomIndex]] = [
-            drawPile[randomIndex], drawPile[currentIndex]];
+        let numberLength = [];
+        for(let i = 0; i < drawPile.length; i++){
+            numberLength.push(i);
         }
-        return drawPile;
+
+        let shuffledNumber = numberLength.sort(() => Math.random() - 0.5);
+
+        let shuffledDrawPile = [];
+        
+        for(let i = 0; i < drawPile.length; i++){
+
+            shuffledDrawPile.push(drawPile[shuffledNumber[i]]);
+        }
+
+        return shuffledDrawPile;
+
     }
 
 
     {# FONCTION QUI PERMET DE DEFAUSSER LA CARTE COURANTE #}
     function discard(){
+        if(selectedCards.length == 0){
+            return;
+        }
         let discard = document.getElementById("stackDiscard");
         let card = gameboard.find(card => card.id == selectedCards[0].dataset.id);
         // On enleve la carte de base du tableau si le tableau fais plus de 1
         if(discardPile.length == 1){
-            discardPile[0] = card;
-        }else{
-            discardPile.push(card);
+            // trouver la carte avec l'id Discard
+            let discardCard = discardPile.find(card => card.id == "Discard");
+            console.log(discardCard);
+            if(discardCard){
+                // supprimer la carte de base
+                discardPile.splice(discardPile.indexOf(discardCard), 1);
+            }
         }
+        // ajoute la carte au tableau de carte de la defausse
+        discardPile.push(card);
         console.log(discardPile);
         // vide l'html de discard
         discard.innerHTML = "";
@@ -214,6 +248,7 @@
         newCard.id = `discardCard`;
         newCard.classList.add("card");
         newCard.dataset.id = card.id;
+        newCard.draggable = false;
         // ajoute le listener a la carte
         selectCardsListener(newCard);
         cardContainer.appendChild(newCard);
@@ -225,6 +260,11 @@
 
     {# FONCTION QUI PERMET DE RECUPERER LA CARTE ACTUELLE DANS LA DEFAUSSE #}
     function getDiscard(){
+        if(discardPile.length == 1){
+            if (discardPile[0].id == "Discard"){
+                return;
+            }
+        }       
         let discard = document.getElementById("discardCard");
         let card = discardPile.find(card => card.id == discard.dataset.id);
         console.log(card);
@@ -236,6 +276,7 @@
         newCard.src = `../${card.path_to_recto}`;
         newCard.alt = `card_${card.id}`;
         newCard.classList.add("card");
+        newCard.draggable = false;
         newCard.dataset.id = card.id;
         cardContainer.appendChild(newCard);
         document.getElementById("cards").appendChild(cardContainer);
@@ -244,13 +285,24 @@
     }
 
     {# FONCTION QUI PERMET DE RETOURNER LA CARTE SELECTIONNER DANS LA PIOCHE #}
-    function backToDraw(card){
-        let cardToDraw = gameboard.find(card => card.id == selectedCards[0].dataset.id);
+    function backToDraw(){
+        let j = 1;
+        let cardToDraw;
+        for (j ; j < gameboard.length; j++){
+            if(gameboard[j].id == selectedCards[0].dataset.id){
+                cardToDraw = gameboard[j];
+                break;
+            }
+        }
+        console.log(cardToDraw);
         let draw = document.getElementById("stackDraw");
         drawPile.push(cardToDraw);
-        gameboard.splice(gameboard.indexOf(card), 1);
+        gameboard.splice(gameboard.indexOf(cardToDraw), 1);
         selectedCards[0].parentNode.remove();
         selectedCards = [];
+        if(drawPile.length == 1 ){
+            nextCard("draw");
+        }
     }
 
 
