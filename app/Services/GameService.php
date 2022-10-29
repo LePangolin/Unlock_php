@@ -7,6 +7,7 @@ use App\Models\Game;
 use Psr\Log\LoggerInterface;
 use App\Services\CardStateService;
 use App\Services\CardService;
+use App\Helper\Enum;
 
 final class GameService
 {
@@ -20,34 +21,49 @@ final class GameService
 
     public function getGame(int $gameId, CardStateService $cardStateService, CardService $cardService)
     {
+        /* On récupère la partie */
         $game = $this->em->getRepository(Game::class)->findOneBy(['id' => $gameId]);
 
+        /* Si la partie existe */
         if ($game) {
+
+            /* On récupère les cartes de la partie */
             $cardStates = $cardStateService->getCardStates($gameId);
 
-            $cards = [];
+            /* On crée un tableau qui contient 3 tableaux, correspondant aux positions en jeu */
+            $finalTable = [];
+            $drawPile = [];
+            $discardPile = [];
+            $gameboard = [];
+
+            /* On récupère les données fixes des cartes qu'on associe aux données spécifiques de la carte dans la partie */
             foreach ($cardStates as $cardState) {
                 $card = $cardService->getCard($cardState->getIdCard());
-                $cards[] = $card;
-            }
-
-            $finalTable = [];
-            foreach ($cards as $card) {
-                foreach ($cardStates as $cardState) {
-                    if ($card->getId() == $cardState->getIdCard()) {
-                        $finalTable[] = [
-                            'id' => $card->getId(),
-                            'path_to_recto' => $card->getPathToRecto(),
-                            'path_to_verso' => $card->getPathToVerso(),
-                            'state' => $cardState->getIdState(),
-                            'deck_id' => $card->getDeckId()
-                        ];
-                    }
+                $cardData =  [
+                    'id' => $card->getId(),
+                    'idState' => $cardState->getIdState(),
+                    'path_to_verso' => $card->getPathToVerso(),
+                    'path_to_recto' => $card->getPathToRecto(),
+                ];
+                /* Placement de la carte dans le tableau correspondant a sa position */
+                switch ($cardState->getIdState()) {
+                    case Enum::DRAW:
+                        $drawPile[] = $cardData;
+                        break;
+                    case Enum::DISCARD:
+                        $discardPile[] = $cardData;
+                        break;
+                    case Enum::PLAY:
+                        $gameboard[] = $cardData;
+                        break;
                 }
             }
-
             $this->logger->info("Game {$gameId} found");
 
+            /* On ajoute les tableaux de cartes dans un tableau */
+            array_push($finalTable, $drawPile, $discardPile, $gameboard);
+
+            /* On retourne ce dernier */
             return $finalTable;
         }
 
@@ -64,7 +80,7 @@ final class GameService
             $this->logger->info("Game {$game->getId()} created");
             $cardStateService->createCarteStates($game->getId(), $deckId, $cardService);
             return $game->getId();
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $this->logger->error("Game not created : " . $e->getMessage());
             $this->em->flush();
             return null;

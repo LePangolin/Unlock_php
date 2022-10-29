@@ -1,83 +1,105 @@
+/* Paramètres généraux */
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
   max-width: 100vw;
-  max-height: 100vh;
-}
-
-body {
+  max-height: 100%;
   overflow: hidden;
-  min-width: 100vw;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
 }
 
+/* La page se sépare entre une partie haute et une partie basse */
+body {
+  max-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* La partie haute contient la pioche, la défausse et les actions de jeu */
 #topbar {
-  display: grid;
-  grid-template-columns: 15% auto 15%;
-  min-height: 33vh;
+  display: flex;
+  flex-direction: row;
+  max-height: 40vh;
   width: 100%;
+  border-bottom: 1px solid black;
 }
 
-#stackDraw {
-  grid-column: 1;
+/* Pioche et défausse */
+#stackDraw,
+#stackDiscard {
   background-color: #222;
-}
-
-#actions {
-  grid-column: 2;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-}
-
-#actionDraw,
-#actionCards,
-#actionDiscardPile {
+  width: 15%;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  margin: 0 1rem;
-}
-
-#actionDraw {
-  grid-column: 1;
-  align-items: flex-start;
-}
-
-#actionCards {
-  grid-column: 2;
   align-items: center;
 }
 
-#actionDiscardPile {
-  grid-column: 3;
-  align-items: flex-end;
+/* Défausse */
+#stackDiscard {
+  margin-left: auto;
 }
 
-#discardPile {
-  grid-column: 3;
-  background-color: #222;
+/* Actions de jeu, séparées en 3, partie action pioche, action jeu, action défausse */
+#actions {
+  display: flex;
+  flex-direction: row;
+  width: 70%;
+  margin: 0 1rem;
 }
 
+/* Les action de la pioche et de la défausse*/
+#actionDraw,
+#actionDiscard {
+  width: 25%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+/* Actions de la pioche */
+#actionDraw button {
+  margin-left: 0;
+}
+
+/* Actions de la défausse */
+#actionDiscard button {
+  margin-right: 0;
+}
+
+/* Les actions du jeu */
+#actionCards {
+  width: 50%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+}
+
+/* Plateau de jeu sur lequel se posent les cartes et où retrouve un menu */
 #board {
   display: flex;
   flex-direction: row;
-  height: 67vh;
+  height: 60vh;
   width: 100%;
 }
 
+/* Emplacment des cartes sur le plateau de jeu */
 #cards {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
+  display: flex;
+  flex-direction: row;
   height: 100%;
   width: 85%;
+  padding: 2rem;
+  overflow-x: auto;
 }
 
-#menu {
-  float: right;
+/* Emplacement du menu de sauvegarde et de retour à l'accueil */
+#boardMenu {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 100%;
   width: 15%;
-  border: solid 2px #222;
+  border-left: solid 1px #222;
 }

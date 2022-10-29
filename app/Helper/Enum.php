@@ -4,7 +4,7 @@ namespace App\Helper;
 
 class Enum
 {
-    const  DRAW = "draw";
-    const  PLAY = 'play';
-    const  DISCARD = 'discard';
+    const  DISCARD = 1;
+    const  DRAW = 2;
+    const  PLAY = 3;
 }

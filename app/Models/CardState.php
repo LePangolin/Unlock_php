@@ -17,7 +17,7 @@ final class CardState
 
     #[Id, Column(type: 'integer', nullable: false)]
     private int $idGame;
-    
+
     #[Id, Column(type: 'string',  nullable: false)]
     private string $idCard;
 
@@ -27,7 +27,7 @@ final class CardState
     #[Id, Column(type: 'string',  nullable: false)]
     private string $idDeck;
 
-    public function __construct(int $idGame ,string $idCard, int $idState, string $idDeck)
+    public function __construct(int $idGame, string $idCard, int $idState, string $idDeck)
     {
         $this->idGame = $idGame;
         $this->idCard = $idCard;
@@ -55,7 +55,4 @@ final class CardState
     {
         return $this->idDeck;
     }
-
-
-
 }

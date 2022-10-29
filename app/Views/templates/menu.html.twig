@@ -4,10 +4,13 @@
 
     {% if sessions is defined %}
         <div>
-            <button class="menu-button" id="create-game">Créer une partie</button>
-            <select name="decks" id="deck-select">
-                <option value="">--Sélectionner un Deck--</option>
-            </select>
+            <form action="/game" method="post">
+                <input type="submit" class="menu-button" id="create-game">Créer une partie</input>
+                <select name="decks" id="deck-select">
+                    <option value="tuto">Tuto</option>
+                    <option value="ep5">ep5</option>
+                </select>
+            </form>
             <button class="menu-button" id="load-game">Charger une partie</button>
         </div>
     {% else %}
