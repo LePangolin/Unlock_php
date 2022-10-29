@@ -40,16 +40,10 @@ final class UserService
     public function logIn($email, $pass){
 
         try{
-            $user = $this->em->getRepository(User::class)->findOneBy(['email' => $email]);
+            $user = $this->em->getRepository(User::class)->findOneBy(['email' => $email,'password' => hash('md5',$pass)]);
             if($user){
-                if($user->getPassword() == $pass){
-                    $this->logger->info("User {$email} logged in");
-                    return $user;
-                }
-                else{
-                    $this->logger->info("User {$email} failed to log in : wrong password");
-                    return false;
-                }
+                $this->logger->info("User {$email} logged in");
+                return $user;
             }
             else{
                 $this->logger->info("User {$email} failed to log in : user not found");
