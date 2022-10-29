@@ -38,7 +38,7 @@ final class GameService
 
             /* On récupère les données fixes des cartes qu'on associe aux données spécifiques de la carte dans la partie */
             foreach ($cardStates as $cardState) {
-                $card = $cardService->getCard($cardState->getIdCard());
+                $card = $cardService->getCard($cardState->getIdCard(), $cardState->getIdDeck());
                 $cardData =  [
                     'id' => $card->getId(),
                     'idState' => $cardState->getIdState(),

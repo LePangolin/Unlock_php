@@ -16,10 +16,10 @@ final class CardService
         $this->logger = $logger;
     }
 
-    public function getCard($id)
+    public function getCard($id, string $deckId)
     {
         try {
-            $card = $this->em->getRepository(Card::class)->findOneBy(['id' => $id]);
+            $card = $this->em->getRepository(Card::class)->findOneBy(['id' => $id,"deckId" => $deckId]);
             $this->logger->info("Card {$id} found");
             return $card;
         } catch (\Exception $e) {
