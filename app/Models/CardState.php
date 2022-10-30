@@ -55,4 +55,9 @@ final class CardState
     {
         return $this->idDeck;
     }
+
+    public function setIdState($idState)
+    {
+        $this->idState = $idState;
+    }
 }

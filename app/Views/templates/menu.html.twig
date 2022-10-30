@@ -5,13 +5,24 @@
     {% if sessions is defined %}
         <div>
             <form action="/game" method="post">
-                <input type="submit" class="menu-button" id="create-game">Créer une partie</input>
+                <input type="submit" class="menu-button" id="create-game" value="Créer une partie">
                 <select name="decks" id="deck-select">
-                    <option value="tuto">Tuto</option>
-                    <option value="ep5">ep5</option>
+                    {% if deckIds is defined %}
+                        {% for id in deckIds %}
+                            <option value="{{id}}">{{id}}</option>
+                        {% endfor %}
+                    {% endif %}
                 </select>
             </form>
-            <button class="menu-button" id="load-game">Charger une partie</button>
+            <form action="/loadSave" method="post">
+                <input type="submit" class="menu-button" id="load-game" value="Charger une partie"> 
+                <select name="saves" id="save-select">
+                    {% if gameIds is defined %}
+                        {% for game in gameIds %}
+                            <option value="{{game['id']}}">{{game['id']}} : {{game['deckId']}}</option>
+                        {% endfor %}
+                    {% endif %}
+            </form>
         </div>
     {% else %}
         <script> window.location.href = "/" </script>

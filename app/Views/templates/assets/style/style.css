@@ -53,6 +53,48 @@ input{
 	border-radius: 5px;
 }
 
+input[type=submit] {
+	width: 62.5%;
+	height: 40px;
+	margin: 10px auto;
+	justify-content: center;
+	display: block;
+	color: #fff;
+	background: var(--bg-color-dark);
+	font-size: 1em;
+	font-weight: bold;
+	margin-top: 20px;
+	outline: none;
+	border: none;
+	border-radius: 5px;
+	transition: .2s ease-in;
+	cursor: pointer;
+}
+input[type=submit]:hover {
+	background: var(--bg-color-light);
+}
+
 .hidden{
 	display: none;
+}
+
+#popup_form_menu {
+	display: none;
+    position: fixed;
+    left: 45%;
+    top: 5%;
+    transform: translate(-45%, 5%);
+    border: 2px solid #666;
+    z-index: 9;
+	background-color: #666;
+}
+#popup_form_end {
+	display: none;
+    position: fixed;
+    left: 45%;
+    top: 5%;
+    transform: translate(-45%, 5%);
+    border: 2px solid #666;
+    z-index: 9;
+	background-color: #666;
 }

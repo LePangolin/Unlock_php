@@ -51,4 +51,23 @@ final class CardService
             return [];
         }
     }
+
+    public function getDeckIds()
+    {
+        try {
+            $decks = $this->em->getRepository(Card::class)->createQueryBuilder('c')
+                ->select('DISTINCT c.deckId')
+                ->getQuery()
+                ->getResult();
+            $this->logger->info("DeckIds found");
+            $deckIds = [];
+            foreach($decks as $deck) {
+                array_push($deckIds, $deck['deckId']);
+            }
+            return $deckIds;
+        } catch (\Exception $e) {
+            $this->logger->error("DeckIds not found : " . $e->getMessage());
+            return [];
+        }
+    }
 }
