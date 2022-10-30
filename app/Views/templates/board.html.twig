@@ -37,7 +37,7 @@
                     </div>
                 </div>
                 <div id="stackDiscard">
-                    <img id='discardCard' src="../{{ discardPile[0]['path_to_verso'] }}" alt="discard pile" class="card" draggable="false"/>
+                    <img id='discardCard'  alt="discard pile" class="card" draggable="false"/>
                 </div>
             </div>
             <div id="board">
@@ -87,6 +87,28 @@
     let drawPile = {{ drawPile|json_encode|raw }};
     let discardPile = {{ discardPile|json_encode|raw }};
     let gameboard = {{ gameboard|json_encode|raw }};
+
+    let deckPath = gameboard[0]['path_to_verso'].split('/');
+    let deckId = deckPath[3];
+    let discardPath = "../img/cards/verso/" + deckId + "/Discard.png";
+
+    if(discardPile.length == 0){
+        document.getElementById('discardCard').src = discardPath;
+    }else{
+        document.getElementById('discardCard').src = "../" + discardPile[0]['path_to_verso'];
+        document.getElementById('discardCard').dataset.id = discardPile[0]['id'];
+    }
+
+    if(drawPile.length == 0){
+        document.getElementById('drawCarte').src = discardPath;
+    }else{
+        document.getElementById('drawCarte').src = "../" + drawPile[0]['path_to_verso'];
+        document.getElementById('drawCarte').dataset.id = drawPile[0]['id'];
+    }
+
+    {# GESTION DES ACTIONS  #}
+
+
 
     // Mode combinaison qui autorise la selection de plusieurs cartes
     let combineMode = false;
@@ -283,12 +305,7 @@
         document.getElementById("popup_form_end").style.display = "none"
     })
     
-    {# chemin pour la cart de discard de base #}
-    let discardPath = "../" + discardPile[0]['path_to_verso'];
-
-    {# Ajout un dataset de base a darwCarte #}
-    let drawCarte = document.getElementById("drawCarte");
-    drawCarte.dataset.id = drawPile[0]['id'];
+    
 
     {# FONCTION DE GESTION DES TABLEAUX DE CARTES #}
 
@@ -448,6 +465,9 @@
         }       
         let discard = document.getElementById("discardCard");
         let card = discardPile.find(card => card.id == discard.dataset.id);
+        if(card == undefined){
+            return;
+        }
         gameboard.push(card);
         discardPile.splice(discardPile.indexOf(card), 1);
         let cardContainer = document.createElement("div");

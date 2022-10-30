@@ -41,7 +41,6 @@ final class Version20221018093224 extends AbstractMigration
         $cards = $this->addCard($cards, 'tuto', '48');
         $cards = $this->addCard($cards, 'tuto', '69');
         $cards = $this->addCard($cards, 'tuto', 'Main');
-        $cards = $this->addCard($cards, 'tuto', 'Discard');
         /* Deck EP5 */
         $cards = $this->addCard($cards, 'ep5', '6');
         $cards = $this->addCard($cards, 'ep5', '8');
@@ -67,7 +66,6 @@ final class Version20221018093224 extends AbstractMigration
         $cards = $this->addCard($cards, 'ep5', 'H');
         $cards = $this->addCard($cards, 'ep5', 'Main');
         $cards = $this->addCard($cards, 'ep5', 'R');
-        $cards = $this->addCard($cards, 'ep5', 'Discard');
 
         foreach ($cards as $card) {
             $this->addSql('INSERT INTO cards (id, deckId) VALUES (?, ?)', [$card['id'], $card['deckId']]);
