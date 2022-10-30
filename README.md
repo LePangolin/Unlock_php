@@ -15,9 +15,9 @@ https://trello.com/b/sMLUD0oV/unlock
 
 2. Aller dans le dossier du projet
 
-3. Lancer la commande
+3. Lancer la commande (dans un terminal type powershell)
  ```
- powershell > docker-compose up -d
+ docker-compose up -d
 ```
 
 4. Allez dans le container avec la commande : 
@@ -27,17 +27,17 @@ https://trello.com/b/sMLUD0oV/unlock
 
 5. Lancer la commande 
 ```bash
-powershell > composer install
+ composer install
 ```
 
 6. Créez la base de données avec la commande 
 ```bash
-powershell > php vendor/bin/doctrine orm:schema-tool:create
+ php vendor/bin/doctrine orm:schema-tool:create
 ```
 
 7. Lancez le serveur avec la commande 
 ```bash
-powershell > ./vendor/bin/doctrine-migrations migrate
+ ./vendor/bin/doctrine-migrations migrate
 ```
 
 8. L'application est disponible à l'adresse `http://localhost:8080`
