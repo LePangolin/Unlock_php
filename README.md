@@ -9,39 +9,38 @@
 https://trello.com/b/sMLUD0oV/unlock
 
 
-# docker-compose PHP MariaDB slim4 Boilerplate
+# Mise en place du projet
 
-1. Initialisation du projet
+1. Cloner le projet
 
-Si vous êtes sur Windows dans la console powershell
+2. Aller dans le dossier du projet
 
-```bash
-
-bash initialise.sh
-
+3. Lancer la commande
+ ```bash
+ docker-compose up -d
 ```
 
-si vous êtes sur Linux ou Mac
-
+4. Allez dans le container avec la commande : 
 ```bash
-
-./initialise.sh
-
+docker-compose exec --workdir /app php /bin/bash
 ```
 
-2. Seeding du projet
-
-Une fois dans le container php
-
+5. Lancer la commande 
 ```bash
-
-./InDocker.sh
-
+composer install
 ```
 
+6. Créez la base de données avec la commande 
+```bash
+php vendor/bin/doctrine orm:schema-tool:create
+```
 
-3. slim app runs on http://localhost:8080
+7. Lancez le serveur avec la commande 
+```bash
+./vendor/bin/doctrine-migrations migrate
+```
 
+8. L'application est disponible à l'adresse `http://localhost:8080`
 
 # Lien Ressources
 
