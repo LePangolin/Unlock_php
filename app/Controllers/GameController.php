@@ -66,6 +66,7 @@ class GameController
             'drawPile' => $this->drawPile,
             'discardPile' => $this->discardPile,
             'gameboard' => $this->gameboard,
+            'gameId' => $args['id'],
         ]);
     }
 
@@ -73,5 +74,27 @@ class GameController
     {
         $gameId = $this->gameService->createGame($_SESSION['user']->getId(), $request->getParsedBody()['decks'], $this->cardStateService, $this->cardService);
         return $response->withHeader('Location', '/game/' . $gameId)->withStatus(302);
+    }
+
+    public function loadSave(Request $request, Response $response, $args): Response
+    {
+        if (in_array('saves', $request->getParsedBody())) {
+            return $response->withHeader('Location', '/game/' . $request->getParsedBody()['saves'])->withStatus(302);
+        } 
+        return $response->withHeader('Location', '/menu')->withStatus(302);
+    }
+
+    public function save(Request $request, Response $response, $args): Response
+    { 
+        $save = $this->gameService->save($this->cardStateService, $this->cardService);
+        if ($save) {
+            return $response->withHeader('Location', '/menu')->withStatus(302);
+        }
+    }
+
+    public function endGame(Request $request, Response $response, $args): Response
+    {
+        $this->gameService->endGame();
+        return $response->withHeader('Location', '/menu')->withStatus(302);
     }
 }
