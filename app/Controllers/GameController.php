@@ -78,7 +78,7 @@ class GameController
 
     public function loadSave(Request $request, Response $response, $args): Response
     {
-        if (in_array('saves', $request->getParsedBody())) {
+        if (array_key_exists('saves', $request->getParsedBody())) {
             return $response->withHeader('Location', '/game/' . $request->getParsedBody()['saves'])->withStatus(302);
         } 
         return $response->withHeader('Location', '/menu')->withStatus(302);
