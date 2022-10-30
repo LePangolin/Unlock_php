@@ -1,28 +1,40 @@
 {% include "head.html.twig"%}
 
+    <style>
+        {{ source('./assets/style/menu.css')}}
+    </style>
+
 {% block body %}
 
     {% if sessions is defined %}
-        <div>
-            <form action="/game" method="post">
-                <input type="submit" class="menu-button" id="create-game" value="Créer une partie">
-                <select name="decks" id="deck-select">
-                    {% if deckIds is defined %}
-                        {% for id in deckIds %}
-                            <option value="{{id}}">{{id}}</option>
-                        {% endfor %}
-                    {% endif %}
-                </select>
-            </form>
-            <form action="/loadSave" method="post">
-                <input type="submit" class="menu-button" id="load-game" value="Charger une partie"> 
-                <select name="saves" id="save-select">
-                    {% if gameIds is defined %}
-                        {% for game in gameIds %}
-                            <option value="{{game['id']}}">{{game['id']}} : {{game['deckId']}}</option>
-                        {% endfor %}
-                    {% endif %}
-            </form>
+        <div class="main">
+            <h1 class="accountName"> {{ session_name }} </h1>
+            <div class="form">
+                <form action="/game" method="post">
+                    <input type="submit" class="menu-button" id="create-game" value="Créer une partie">
+                    <center>
+                        <select name="decks" id="deck-select">
+                            {% if deckIds is defined %}
+                                {% for id in deckIds %}
+                                    <option value="{{id}}">{{id}}</option>
+                                {% endfor %}
+                            {% endif %}
+                        </select>
+                    </center>
+                </form>
+                <form action="/loadSave" method="post">
+                    <input type="submit" class="menu-button" id="load-game" value="Charger une partie">
+                    <center>
+                        <select name="saves" id="save-select">
+                            {% if gameIds is defined %}
+                                {% for game in gameIds %}
+                                    <option value="{{game['id']}}">{{game['id']}} : {{game['deckId']}}</option>
+                                {% endfor %}
+                            {% endif %}
+                        </select>
+                    </center>
+                </form>
+            </div>
         </div>
     {% else %}
         <script> window.location.href = "/" </script>

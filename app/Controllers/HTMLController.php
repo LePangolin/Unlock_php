@@ -65,6 +65,7 @@ class HTMLController
             return $this->twig->render($response, 'menu.html.twig', [
                 'title' => 'Menu',
                 'sessions' => $_SESSION['user'],
+                'session_name' => $_SESSION['user']->getEmail(),
                 'deckIds' => $deckIds,
                 'gameIds' => $gameIds,
             ]);
