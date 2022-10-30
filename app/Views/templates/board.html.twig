@@ -1,4 +1,8 @@
 {% include "head.html.twig"%}
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+            />
         <style>
         {{ source("./assets/style/board.css") }}
         </style>
@@ -18,11 +22,14 @@
                         <button class="action" id="shuffle">Mélanger</button>
                     </div>
                     <div id="actionCards">
-                        <button class="action" id="discard">Défausser</button>
                         <button class="action" id="backToDraw">Retour pioche</button>
-                        <button class="action" id="ungroup">Dégrouper</button>
-                        <button class="action" id="applyModif">Appliquer un modificateur</button>
+                        <button class="action" id="discard">Défausser</button>
                         <button class="action" id="combine">Combiner</button>
+                        <button class="action" id="ungroup">Dégrouper</button>
+                        <div id="cancelConfirm">
+                            <button class="action material-symbols-outlined" id="cancel"> close </button>
+                            <button class="action material-symbols-outlined" id="confirm"> check </button>
+                        </div>
                     </div>
                     <div id="actionDiscard">
                         <button class="action" id="getBack">Récupérer</button>
@@ -51,48 +58,183 @@
     {% endif %}
 
 <script>
+    // Cartes actuellement selectionnées en jeu 
     let selectedCards = [];
-    // Mettre true pour les combinaisons et modificateurs
-    let additionMode = false;
-    
-    // Récupère toutes les cartes présentes dans l'html (visibles)
-    let cards = Array.from(document.getElementsByClassName("card"));
-    
-    // Fonction qui donne l'event listener a une carte
-    function selectCardsListener (card) {
-        card.addEventListener("click", function() {
-                if (selectedCards.includes(card)) {
-                card.classList.remove("selected");
-                selectedCards.splice(selectedCards.indexOf(card), 1);
-            } else {
-                if (additionMode == false) {
-                    if (selectedCards.length > 0) {
-                        selectedCards.forEach(card => {
-                            card.classList.remove("selected");
-                        });
-                        selectedCards = [];
-                    }
-                }
-                card.classList.add("selected");
-                selectedCards.push(card);
-                console.log(selectedCards);
-            }      
-        });
-    }
-
-    // Donne l'event listener aux cartes déjà visibles 
-    cards.forEach(card => {
-        selectCardsListener(card);
-    });
-
-
-    {# FONCTIONS D'ACTION SUR L'AFFICHAGE ET LES TABLEAU DE CARTE #}
-    let  i = 1;
 
     {# RECUPERATION DES TABLEAU DE CARTES  #}
     let drawPile = {{ drawPile|json_encode|raw }};
     let discardPile = {{ discardPile|json_encode|raw }};
     let gameboard = {{ gameboard|json_encode|raw }};
+
+    // Mode combinaison qui autorise la selection de plusieurs cartes
+    let combineMode = false;
+
+    // Boutons de l'interface
+    let drawButton = document.getElementById("draw");
+    let nextDrawButton = document.getElementById("nextDraw");
+    let shuffleButton = document.getElementById("shuffle");
+    let discardButton = document.getElementById("discard");
+    let backToDrawButton = document.getElementById("backToDraw");
+    let ungroupButton = document.getElementById("ungroup");
+    let combineButton = document.getElementById("combine");
+    let cancelButton = document.getElementById("cancel");
+    let confirmButton = document.getElementById("confirm");
+    let getBackButton = document.getElementById("getBack");
+    let nextDiscardButton = document.getElementById("nextDiscard");
+
+    // Fonction de gestion des boutons, seuls ceux en paramètre sont actifs 
+    function enableOnly (arrayOfButtons) {
+        discardButton.disabled = true;
+        backToDrawButton.disabled = true;
+        ungroupButton.disabled = true;
+        combineButton.disabled = true;
+        cancelButton.disabled = true;
+        confirmButton.disabled = true;
+        arrayOfButtons.forEach(button => {
+            button.disabled = false;
+        });
+    }
+    enableOnly([discardButton, backToDrawButton, ungroupButton, combineButton]);
+    
+    // Fonction qui donne l'event listener de selection a une carte
+    function selectCardsListener (card) {
+        card.addEventListener("click", function() {
+            let container = card.parentNode;
+            let brothers = container.querySelectorAll(".card");
+            if (brothers.length > 1) {
+                if (brothers[0].classList.contains("selected")) {
+                    brothers.forEach(brother => {
+                        brother.classList.remove("selected");
+                        selectedCards.splice(selectedCards.indexOf(brother.dataset.id), 1);
+                    });
+                } else {
+                    if (combineMode == false && selectedCards.length > 0) {
+                        cancelSelection();
+                    }
+                    brothers.forEach(brother => {
+                        brother.classList.add("selected");
+                        if (!selectedCards.includes(brother)) {
+                            selectedCards.push(brother);
+                        }
+                    });
+                }
+            } else {
+                if (selectedCards.includes(card)) {
+                    card.classList.remove("selected");
+                    selectedCards.splice(selectedCards.indexOf(card), 1);
+                } else {
+                    if (combineMode == false && selectedCards.length > 0) {
+                            cancelSelection();
+                    }
+                    card.classList.add("selected");
+                    selectedCards.push(card);
+                }      
+            }
+        });
+    }
+    // Donne l'event listener aux cartes déjà visibles dans le gameboard
+    gameboard.forEach(card => {
+        let cardElement = document.querySelector(`[data-id="${card['id']}"]`);
+        if (card['id'] != "Main") {
+            selectCardsListener(cardElement);
+        }
+    });
+
+    // Fonction qui gère l'affichage des cartes du tableau de jeu
+    function adaptCardContainerWidth() {
+    let containers = Array.from(document.getElementsByClassName("cardContainer"));
+        containers.forEach(container => {
+            let cardCount = container.childElementCount;
+            if (cardCount > 0) {
+                let cardWidth = document.getElementsByClassName("card")[0].offsetWidth;
+                let space = 0.3 * cardWidth;
+                let marginRight = cardCount * space;    
+
+                container.style.margin = `0 ${marginRight}px 0 0`;
+
+                let cards = Array.from(container.children);
+                for (let i = 0; i < cards.length; i++) {
+                    cards[i].style.left = `${i * space}px`;
+                }
+            } else {
+                container.remove();
+            }
+        });
+    }
+    // Cette fontion est utilisée lors du chargement de la page
+    adaptCardContainerWidth();
+    // Et lorsque la page change de taille
+    window.addEventListener("resize", adaptCardContainerWidth);
+
+    // Fonction permettant de rentrer dans le mode de selection de plusieurs cartes
+    function enterCombineMode() {
+        enableOnly([cancelButton, confirmButton]);
+        combineMode = true;
+    }
+    combineButton.addEventListener("click", enterCombineMode);
+
+    // Fonction qui retire la selection de toutes les cartes
+    function cancelSelection() {
+        selectedCards.forEach(card => {
+            card.classList.remove("selected");
+        });
+        selectedCards = [];
+    }
+
+    // Fonction permettant de sortir du mode de selection de plusieurs cartes
+    function exitCombineMode() {
+        enableOnly([discardButton, backToDrawButton, ungroupButton, combineButton]);
+        combineMode = false;
+        cancelSelection();
+    }
+    cancelButton.addEventListener("click", exitCombineMode);
+
+    // Fonction permettant de grouper les cartes selectionnées
+    function combineCards() {
+        if (selectedCards.length > 1) {
+            let parentDiv = selectedCards[0].parentElement;
+            for (let i = 1; i < selectedCards.length; i++) {
+                let emptyDiv = selectedCards[i].parentElement;
+                parentDiv.appendChild(selectedCards[i]);
+                if (emptyDiv.childElementCount == 0) {
+                    emptyDiv.remove();
+                }
+            }
+            adaptCardContainerWidth();
+            exitCombineMode();
+        }
+    }
+    confirmButton.addEventListener("click", combineCards);
+
+    // Fonction permettant de dégrouper les cartes selectionnées
+    function ungroupCards() {
+        if (selectedCards.length > 0) {
+            let container = selectedCards[0].parentNode;
+            let brothers = container.querySelectorAll(".card");
+            if (brothers.length > 1) {
+
+                let cards = document.getElementById("cards");
+
+
+                for (let i = 1; i < selectedCards.length; i++) {
+
+                    let newDiv = document.createElement("div");
+                    newDiv.classList.add("cardContainer");
+                    cards.appendChild(newDiv);
+                    newDiv.appendChild(selectedCards[i]);
+
+                    
+                }
+                cancelSelection();
+
+                adaptCardContainerWidth();
+            }
+        }
+    }
+    ungroupButton.addEventListener("click", ungroupCards);
+
+    {# FONCTIONS D'ACTION SUR L'AFFICHAGE ET LES TABLEAU DE CARTE #}
+    let  i = 1;
 
     {# chemin pour la cart de discard de base #}
     let discardPath = "../" + discardPile[0]['path_to_verso'];
@@ -147,6 +289,7 @@
         drawPile.splice(drawPile.indexOf(card), 1);
         //avance d'un index dans le tableau de carte de la pioche
         nextCard("draw");
+        adaptCardContainerWidth();
     };
 
     {# PERMET DE PASSER A LA CARTE SUIVANTE #}
@@ -177,7 +320,6 @@
             if(max == 0){
                 document.getElementById("discardCard").src = discardPath;
             }else{
-                console.log(i);
                 let draw = document.getElementById("discardCard");
                 if(i < max-1){
                     draw.src = `../${discardPile[i].path_to_verso}`;
@@ -219,43 +361,34 @@
 
     {# FONCTION QUI PERMET DE DEFAUSSER LA CARTE COURANTE #}
     function discard(){
-        if(selectedCards.length == 0){
-            return;
-        }
-        let discard = document.getElementById("stackDiscard");
-        let card = gameboard.find(card => card.id == selectedCards[0].dataset.id);
-        // On enleve la carte de base du tableau si le tableau fais plus de 1
-        if(discardPile.length == 1){
-            // trouver la carte avec l'id Discard
-            let discardCard = discardPile.find(card => card.id == "Discard");
-            console.log(discardCard);
-            if(discardCard){
-                // supprimer la carte de base
-                discardPile.splice(discardPile.indexOf(discardCard), 1);
+        selectedCards.forEach(cardDelete => {
+
+            let discard = document.getElementById("stackDiscard");
+            let card = gameboard.find(card => card.id == cardDelete.dataset.id);
+            // On enleve la carte de base du tableau si le tableau fais plus de 1
+            if(discardPile.length == 1){
+                // trouver la carte avec l'id Discard
+                let discardCard = discardPile.find(card => card.id == "Discard");
+                if(discardCard){
+                    // supprimer la carte de base
+                    discardPile.splice(discardPile.indexOf(discardCard), 1);
+                }
             }
-        }
-        // ajoute la carte au tableau de carte de la defausse
-        discardPile.push(card);
-        console.log(discardPile);
-        // vide l'html de discard
-        discard.innerHTML = "";
-        // ajoute la carte au html
-        let cardContainer = document.createElement("div");
-        cardContainer.classList.add("cardContainer");
-        let newCard = document.createElement("img");
-        newCard.src = `../${card.path_to_verso}`;
-        newCard.alt = `card_${card.id}`;
-        newCard.id = `discardCard`;
-        newCard.classList.add("card");
-        newCard.dataset.id = card.id;
-        newCard.draggable = false;
-        // ajoute le listener a la carte
-        selectCardsListener(newCard);
-        cardContainer.appendChild(newCard);
-        discard.appendChild(cardContainer);
-        gameboard.splice(gameboard.indexOf(card), 1);
-        selectedCards[0].parentNode.remove();
-        selectedCards = [];
+            // ajoute la carte au tableau de carte de la defausse
+            discardPile.push(card);
+            // ajoute la carte au html
+            let newCard = document.getElementById("discardCard");
+            newCard.src = `../${card.path_to_verso}`;
+            newCard.alt = `card_${card.id}`;
+            newCard.dataset.id = card.id;
+            gameboard.splice(gameboard.indexOf(card), 1);
+            if (cardDelete.parentNode.children.length > 1) {
+                cardDelete.parentNode.remove();
+            } else {
+                cardDelete.remove();
+            }
+        });
+        cancelSelection();
     }
 
     {# FONCTION QUI PERMET DE RECUPERER LA CARTE ACTUELLE DANS LA DEFAUSSE #}
@@ -267,7 +400,6 @@
         }       
         let discard = document.getElementById("discardCard");
         let card = discardPile.find(card => card.id == discard.dataset.id);
-        console.log(card);
         gameboard.push(card);
         discardPile.splice(discardPile.indexOf(card), 1);
         let cardContainer = document.createElement("div");
@@ -282,27 +414,34 @@
         document.getElementById("cards").appendChild(cardContainer);
         selectCardsListener(newCard);
         nextCard("discard");
+        adaptCardContainerWidth();
     }
 
     {# FONCTION QUI PERMET DE RETOURNER LA CARTE SELECTIONNER DANS LA PIOCHE #}
     function backToDraw(){
-        let j = 1;
         let cardToDraw;
-        for (j ; j < gameboard.length; j++){
-            if(gameboard[j].id == selectedCards[0].dataset.id){
-                cardToDraw = gameboard[j];
-                break;
+        selectedCards.forEach(card => {
+    
+            for (let j = 1 ; j < gameboard.length; j++){
+                if(gameboard[j].id == card.dataset.id){
+                    cardToDraw = gameboard[j];
+                    break;
+                }
             }
-        }
-        console.log(cardToDraw);
-        let draw = document.getElementById("stackDraw");
-        drawPile.push(cardToDraw);
-        gameboard.splice(gameboard.indexOf(cardToDraw), 1);
-        selectedCards[0].parentNode.remove();
-        selectedCards = [];
-        if(drawPile.length == 1 ){
-            nextCard("draw");
-        }
+            let draw = document.getElementById("stackDraw");
+            drawPile.push(cardToDraw);
+            gameboard.splice(gameboard.indexOf(cardToDraw), 1);
+            if (card.parentNode.children.length > 1) {
+                card.parentNode.remove();
+            } else {
+                card.remove();
+            }
+            cancelSelection();
+            if(drawPile.length == 1 ){
+                nextCard("draw");
+            }
+
+        });
     }
 
 
