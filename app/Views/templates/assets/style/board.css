@@ -73,6 +73,20 @@ body {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(3, 1fr);
+  border-left: #222 solid 1px;
+  border-right: #222 solid 1px;
+}
+
+#cancelConfirm {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  grid-column: span 2;
+}
+
+#cancel,
+#confirm {
+  width: 5rem;
 }
 
 /* Plateau de jeu sur lequel se posent les cartes et où retrouve un menu */
@@ -93,14 +107,19 @@ body {
   overflow-x: auto;
 }
 
-/* De l'espace entre chaque emplacement de carte */
-#cards div {
-  margin-right: 1rem;
-}
-
 /* Une visibilité sur les cartes sélectionnées */
 .selected {
   box-shadow: 0 0 0 0.2rem rgba(255, 75, 75, 0.8);
+}
+
+.cardContainer {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+}
+
+.card + .card {
+  position: absolute;
 }
 
 /* Emplacement du menu de sauvegarde et de retour à l'accueil */
