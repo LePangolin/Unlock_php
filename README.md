@@ -22,7 +22,7 @@ https://trello.com/b/sMLUD0oV/unlock
 
 4. Allez dans le container avec la commande : 
 ```bash
- powershell >  docker-compose exec --workdir /app php /bin/bash
+ docker-compose exec --workdir /app php /bin/bash
 ```
 
 5. Lancer la commande 
