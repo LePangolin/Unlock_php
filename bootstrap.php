@@ -73,7 +73,7 @@ $container->set(UserController::class, static function (Container $c) {
 });
 
 $container->set(HTMLController::class, static function (Container $c) {
-    return new HTMLController($c->get("view"));
+    return new HTMLController($c->get("view"), $c->get(GameService::class), $c->get(CardService::class));
 });
 
 $container->set(GameService::class, static function (Container $c) {

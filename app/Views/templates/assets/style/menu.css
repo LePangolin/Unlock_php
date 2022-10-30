@@ -1,0 +1,57 @@
+.main{
+	width: 350px;
+	height: 500px;
+	background: red;
+	overflow: hidden;
+	background: url("https://doc-08-2c-docs.googleusercontent.com/docs/securesc/68c90smiglihng9534mvqmq1946dmis5/fo0picsp1nhiucmc0l25s29respgpr4j/1631524275000/03522360960922298374/03522360960922298374/1Sx0jhdpEpnNIydS4rnN4kHSJtU1EyWka?e=view&authuser=0&nonce=gcrocepgbb17m&user=03522360960922298374&hash=tfhgbs86ka6divo3llbvp93mg4csvb38") no-repeat center/ cover;
+	border-radius: 10px;
+	box-shadow: 5px 20px 50px #000;
+    background-color: white;
+}
+
+:root{
+    --bg-color-dark : #00A7EE;
+    --bg-color-light : #2CCDF7;
+}
+
+body{
+	margin: 0;
+	padding: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh;
+	font-family: 'Jost', sans-serif;
+	background: linear-gradient(to bottom, var(--bg-color-dark), var(--bg-color-light) , var(--bg-color-dark));
+}
+
+.accountName{
+    /* text fit container */
+    width: 100%;
+    /* text fit container */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: #00A7EE;
+
+}
+
+/* change select css */
+select{
+    width: 62.5%;
+    justify-content: center;
+    height: 40px;
+    border: 1px solid #00A7EE;
+    border-radius: 5px;
+    background-color: white;
+    color: #00A7EE;
+    font-size: 15px;
+    font-weight: bold;
+    padding-left: 10px;
+}
+
+.form{
+    margin-top:  3rem;
+}

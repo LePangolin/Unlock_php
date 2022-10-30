@@ -49,8 +49,30 @@
                     {% endfor %}
                 </div>
                 <div id="boardMenu">
-                    <button  id="save">Sauvegarder</button>
-                    <button  id="backToMenu">Menu</button>
+                    <form id="save_form" method="post" action="/save">
+                        <input type="submit" name"submit" id="save" value="Sauvegarder">
+                        <input type= "hidden" name="draw_pile" id="draw_pile" value="">
+                        <input type= "hidden" name="discard_pile" id="discard_pile" value="">
+                        <input type= "hidden" name="gameboard_pile" id="gameboard_pile" value="">
+                        <input type= "hidden" name="game_id" value={{gameId}}>
+                    </form>
+                    <button id="backToMenu">Menu</button>
+                    <div id="popup_form_menu">
+                        <p>Êtes vous sûr de vouloir quitter sans sauvegarder ?</p>
+                        <form id="form_menu" method="post" action="/menu">
+                            <input type="submit" id="yes_b2menu" value="Oui">
+                        </form>
+                        <button id="no_menu">Non</button>
+                    </div>
+                    <button id="endGame">Terminer la partie</button>
+                    <div id="popup_form_end">
+                        <p>Terminer la partie supprimera votre sauvegarde et vous renverra au menu.</p>
+                        <form id="form_end" method="post" action="/endGame">
+                            <input type="submit" id="yes_end" value="Oui">
+                            <input type= "hidden" name="game_id" value={{gameId}}>
+                        </form>
+                        <button id="no_end">Non</button>
+                    </div>
                 </div>
             </div>
     {% else %}
@@ -236,6 +258,31 @@
     {# FONCTIONS D'ACTION SUR L'AFFICHAGE ET LES TABLEAU DE CARTE #}
     let  i = 1;
 
+    {# event listener pour envoyer les tableaux de cartes dans le form de sauvegarde #}
+    let save_form = document.getElementById("save_form")
+    save_form.addEventListener('submit', function () {
+        document.getElementById("draw_pile").value = JSON.stringify(drawPile);
+        document.getElementById("discard_pile").value = JSON.stringify(discardPile);
+        document.getElementById("gameboard_pile").value = JSON.stringify(gameboard);
+    })
+    
+    let backToMenuButton = document.getElementById("backToMenu")
+    backToMenuButton.addEventListener('click', function () {
+        document.getElementById("popup_form_menu").style.display = "block"
+    }) 
+    let no_button_menu = document.getElementById("no_menu")
+    no_button_menu.addEventListener('click', function () {
+        document.getElementById("popup_form_menu").style.display = "none"
+    })
+    let endGameButton = document.getElementById("endGame")
+    endGameButton.addEventListener('click', function () {
+        document.getElementById("popup_form_end").style.display = "block"
+    }) 
+    let no_button_end = document.getElementById("no_end")
+    no_button_end.addEventListener('click', function () {
+        document.getElementById("popup_form_end").style.display = "none"
+    })
+    
     {# chemin pour la cart de discard de base #}
     let discardPath = "../" + discardPile[0]['path_to_verso'];
 

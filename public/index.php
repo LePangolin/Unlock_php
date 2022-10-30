@@ -18,11 +18,14 @@ $app->get('/', \App\Controllers\HTMLController::class . ':acceuil')->setName('ac
 $app->get('/game/{id}', \App\Controllers\GameController::class . ':game')->setName('game');
 $app->get('/menu', \App\Controllers\HTMLController::class . ':menu')->setName('menu');
 
-
 // ROUTE POST
 $app->post('/login', \App\Controllers\UserController::class . ':login')->setName('login');
 $app->post('/signup', \App\Controllers\UserController::class . ':signUp')->setName('signup');
 $app->post('/game', \App\Controllers\GameController::class . ':createGame')->setName('createGame');
+$app->post('/menu', \App\Controllers\HTMLController::class . ':menu')->setName('menu'); 
+$app->post('/save', \App\Controllers\GameController::class . ':save')->setName('save');
+$app->post('/loadSave', \App\Controllers\GameController::class . ':loadSave')->setName('loadSave');
+$app->post('/endGame', \App\Controllers\GameController::class . ':endGame')->setName('endGame');
 
 $app->get('/gameboard/{gameId}[/]', \App\Controllers\HTMLController::class . ':gameboard')->setName('gameboard');
 
